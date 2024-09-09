@@ -7,10 +7,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.eduqa_backend.dto.CourseDTO;
 import com.eduqa_backend.dto.Pagination;
-import com.eduqa_backend.mapper.CourseMapper;
+import com.eduqa_backend.mapper.CoursesMapper;
 import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.repository.CourseRepository;
 import com.eduqa_backend.util.PageInput;
@@ -18,7 +17,7 @@ import com.eduqa_backend.util.PageInput;
 @Service
 public class CourseServices {
 @Autowired private CourseRepository courseRepository;
-private CourseMapper courseMapper = new CourseMapper();
+private CoursesMapper courseMapper = new CoursesMapper();
 public ResponseEntity<String> courseRegistreation(Course entity) {
    try {
     courseRepository.save(entity);
