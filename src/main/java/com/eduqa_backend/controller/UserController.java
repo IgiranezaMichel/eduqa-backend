@@ -7,11 +7,14 @@ import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.input.UserInput;
 import com.eduqa_backend.services.UserServices;
 import com.eduqa_backend.util.PageInput;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @RestController
+@CrossOrigin
 @RequestMapping("/api/user")
 public class UserController {
 @Autowired private UserServices userServices;
