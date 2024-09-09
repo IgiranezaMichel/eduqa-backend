@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 import com.eduqa_backend.modal.User;
 @Repository
 public interface UserRepository extends JpaRepository<User,UUID>{
-    Page<User> findAllByName(PageRequest of,String name);
+    Page<User> findAllByNameContainingIgnoreCase(PageRequest of,String name);
 }

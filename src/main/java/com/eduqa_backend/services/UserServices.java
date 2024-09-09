@@ -41,7 +41,7 @@ public ResponseEntity<String> registerUser(UserInput userInput) {
 
 public Pagination<UserDTO> getAllUserPage(PageInput input) {
     if(input.getSearch()!=null&&!input.getSearch().isEmpty()){
-        all = userRepository.findAllByName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
+        all = userRepository.findAllByNameContainingIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
     }
     else   all = userRepository.findAll(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
 return new Pagination<>(all.getNumber(),all.getTotalPages(),all.getTotalElements(),all.getContent().stream().map(userMapper).toList());

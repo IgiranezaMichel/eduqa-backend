@@ -11,6 +11,6 @@ import com.eduqa_backend.modal.SemesterCourse;
 @Repository
 public interface SemesterCourseRepository extends JpaRepository<SemesterCourse,UUID>{
 
-    Page<SemesterCourse> findAllBySemesterName(PageRequest of,String name);
+    Page<SemesterCourse> findAllBySemesterNameIgnoreCase(PageRequest of,String name);
 
 }

@@ -29,7 +29,7 @@ try {
 }
 public Pagination<SemesterDTO> getAllSemesterRegisteredPage(PageInput input) {
        if (input.getSearch()==null) {
-        Page<Semester>page = semesterRepository.findAllByName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
+        Page<Semester>page = semesterRepository.findAllByNameIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
         return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(semesterMapper).toList());
  
    }
