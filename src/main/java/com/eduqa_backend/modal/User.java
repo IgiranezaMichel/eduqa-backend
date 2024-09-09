@@ -37,7 +37,7 @@ private byte [] picture;
 private Role role;
 private LocalDateTime timeStamp=LocalDateTime.now();
 public User(UserInput userDTO) {
-    if(userDTO.getId() == null) 
+    if(userDTO.getId() != null) 
     this.id = UUID.fromString(userDTO.getId());
     if(userDTO.getName() == null)throw new IllegalArgumentException("Name is required");
     this.name = userDTO.getName();
@@ -49,8 +49,8 @@ public User(UserInput userDTO) {
     this.email = userDTO.getEmail();
     if(userDTO.getPassword() == null)throw new IllegalArgumentException("Password is required");
     this.password = userDTO.getPassword();
-    if(userDTO.getPicture() == null)throw new IllegalArgumentException("Picture is required");
-    this.picture = ImageConverter.convertToByteArray(userDTO.getPicture());
+    // if(userDTO.getPicture() == null)throw new IllegalArgumentException("Picture is required");
+    // this.picture = ImageConverter.convertToByteArray(userDTO.getPicture());
     if(userDTO.getRole() == null)throw new IllegalArgumentException("Role is required");
     this.role = userDTO.getRole();
 }
