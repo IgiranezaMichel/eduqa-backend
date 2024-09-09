@@ -39,8 +39,8 @@ public ResponseEntity<String> registerLectureCourses(LectureCourseInput data) {
    
 }
 public Pagination<LectureCourseDTO> getLectureCoursesPage(PageInput input) {
-    if (input.getSearch()==null) {
-        Page<LectureCourse>page = lectureCourseRepository.findAllByCourseName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
+    if (input.getSearch()!=null) {
+        Page<LectureCourse>page = lectureCourseRepository.findAllByCourseName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
         return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(lectureCourseMapper).toList());
  
    }

@@ -10,6 +10,6 @@ import com.eduqa_backend.modal.LectureCourse;
 @Repository
 public interface LectureCourseRepository extends JpaRepository<LectureCourse,UUID>{
 
-    Page<LectureCourse> findAllByCourseName(PageRequest of);
+    Page<LectureCourse> findAllByCourseName(PageRequest of,String name);
 
 }

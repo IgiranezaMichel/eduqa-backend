@@ -10,6 +10,6 @@ import com.eduqa_backend.modal.Registration;
 @Repository
 public interface RegistrationRepository extends JpaRepository<Registration,UUID> {
 
-    Page<Registration> findAllBySemesterName(PageRequest of);
+    Page<Registration> findAllBySemesterName(PageRequest of,String name);
 
 }

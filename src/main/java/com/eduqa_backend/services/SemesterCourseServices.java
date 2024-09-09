@@ -38,7 +38,7 @@ try {
 
 public Pagination<SemesterCourseDTO> getAllSemesterRegisteredPage(PageInput input) {
        if (input.getSearch()==null) {
-        Page<SemesterCourse>page = semesterCourseRepository.findAllBySemesterName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
+        Page<SemesterCourse>page = semesterCourseRepository.findAllBySemesterName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
         return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(semesterCourseMapper).toList());
  
    }

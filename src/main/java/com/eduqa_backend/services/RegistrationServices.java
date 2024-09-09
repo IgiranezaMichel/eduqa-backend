@@ -40,7 +40,7 @@ public ResponseEntity<String> registerStudent(RegistrationInput registrationInpu
 
 public Pagination<RegistrationDTO> getLectureCoursesPage(PageInput input) {
       if (input.getSearch()==null) {
-        Page<Registration>page = registrationRepository.findAllBySemesterName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
+        Page<Registration>page = registrationRepository.findAllBySemesterName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())), input.getSearch());
         return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(registrationMapper).toList());
  
    }

@@ -28,8 +28,8 @@ public ResponseEntity<String> courseRegistreation(Course entity) {
 }
 
 public Pagination<CourseDTO> getCoursePage(PageInput input) {
- if (input.getSearch()==null) {
-        Page<Course>page = courseRepository.findAllByName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
+ if (input.getSearch()!=null) {
+        Page<Course>page = courseRepository.findAllByName(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
         return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(courseMapper).toList());
  
    }
