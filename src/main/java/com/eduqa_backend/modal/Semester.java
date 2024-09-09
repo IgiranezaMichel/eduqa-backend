@@ -25,20 +25,20 @@ public class Semester {
 @Id
 @UuidGenerator(style = Style.AUTO)
 private UUID id;
-private String semesterName;
+private String name;
 private LocalDate startingDate;
 private LocalDate endDate;
 private LocalDateTime timeStamp=LocalDateTime.now();
 
 public Semester(UUID id, String semesterName, LocalDate startingDate, LocalDate endDate) {
     this.id = id;
-    this.semesterName = semesterName;
+    this.name = semesterName;
     this.startingDate = startingDate;
     this.endDate = endDate;
 }
 
 public Semester(String semesterName, LocalDate startingDate, LocalDate endDate) {
-    this.semesterName = semesterName;
+    this.name = semesterName;
     this.startingDate = startingDate;
     this.endDate = endDate;
 }
@@ -46,7 +46,7 @@ public Semester(String semesterName, LocalDate startingDate, LocalDate endDate) 
 public Semester(SemesterDTO semesterDTO) {
     if(semesterDTO.getId() == null)
     this.id = UUID.fromString(semesterDTO.getId());
-    this.semesterName = semesterDTO.getSemesterName();
+    this.name = semesterDTO.getSemesterName();
     if(semesterDTO.getStartingDate() != null)throw new RuntimeException("Starting Date is required");
     this.startingDate = LocalDate.parse(semesterDTO.getStartingDate());
     this.endDate = LocalDate.parse(semesterDTO.getEndDate());
