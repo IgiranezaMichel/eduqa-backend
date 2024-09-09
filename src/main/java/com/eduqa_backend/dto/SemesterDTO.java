@@ -17,7 +17,7 @@ private String endDate;
 private String timeStamp;
 public SemesterDTO(Semester semester) {
     this.id = semester.getId().toString();
-    this.semesterName = semester.getSemesterName();
+    this.semesterName = semester.getName();
     this.startingDate = DateConverter.LocalDateConverter(semester.getStartingDate(), "dd, MMMM yyyy");
     this.endDate =DateConverter.LocalDateConverter(semester.getEndDate(), "dd, MMMM yyyy");
     this.timeStamp = DateConverter.LocalDateTimeConverter(semester.getTimeStamp(), "dd, MMMM yyyy MM:ss a");;
