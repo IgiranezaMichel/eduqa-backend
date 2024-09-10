@@ -1,6 +1,7 @@
 package com.eduqa_backend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,13 +24,15 @@ public ResponseEntity<String> courseRegistreation(Course entity) {
     courseRepository.save(entity);
     return ResponseEntity.ok("Course registered successfully");
    } catch (Exception e) {
+      if(e instanceof DataIntegrityViolationException) 
+      return new ResponseEntity<>("Course code already exists",HttpStatus.BAD_REQUEST);
     return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
    }
 }
 
 public Pagination<CourseDTO> getCoursePage(PageInput input) {
  if (input.getSearch()!=null&&!input.getSearch().isEmpty()) {
-        Page<Course>page = courseRepository.findAllByNameIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
+        Page<Course>page = courseRepository.findAllByNameContainingIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
         return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(courseMapper).toList());
  
    }
@@ -37,4 +40,8 @@ public Pagination<CourseDTO> getCoursePage(PageInput input) {
    return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(courseMapper).toList());
 
  }
+
+public long countCourse() {
+   return courseRepository.count();
+}
 }

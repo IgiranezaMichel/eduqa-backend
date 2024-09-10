@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.UserDTO;
+import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.input.UserInput;
 import com.eduqa_backend.mapper.UserMapper;
 import com.eduqa_backend.modal.User;
@@ -39,11 +40,15 @@ public ResponseEntity<String> registerUser(UserInput userInput) {
   }
 }
 
-public Pagination<UserDTO> getAllUserPage(PageInput input) {
+public Pagination<UserDTO> getAllUserPage(PageInput input,Role role) {
     if(input.getSearch()!=null&&!input.getSearch().isEmpty()){
-        all = userRepository.findAllByNameContainingIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
+        all = userRepository.findAllByRoleAndNameContainingIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),role,input.getSearch());
     }
-    else   all = userRepository.findAll(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
+    else   all = userRepository.findAllByRole(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),role);
 return new Pagination<>(all.getNumber(),all.getTotalPages(),all.getTotalElements(),all.getContent().stream().map(userMapper).toList());
+}
+
+public long getTotalUserByRole(Role role) {
+ return userRepository.countByRole(role);
 }
 }

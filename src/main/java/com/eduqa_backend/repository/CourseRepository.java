@@ -10,6 +10,6 @@ import com.eduqa_backend.modal.Course;
 
 public interface CourseRepository extends JpaRepository<Course,UUID>{
 
-    Page<Course> findAllByNameIgnoreCase(PageRequest of,String name);
+    Page<Course> findAllByNameContainingIgnoreCase(PageRequest of,String name);
 
 }

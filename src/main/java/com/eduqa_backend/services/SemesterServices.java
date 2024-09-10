@@ -1,5 +1,7 @@
 package com.eduqa_backend.services;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,5 +37,11 @@ public Pagination<SemesterDTO> getAllSemesterRegisteredPage(PageInput input) {
    }
    Page<Semester>page = semesterRepository.findAll(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
    return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(semesterMapper).toList());
+ }
+public List<SemesterDTO> getAllSemester() {
+   return semesterRepository.findAll(Sort.by(Sort.Direction.DESC,"timeStamp")).stream().map(semesterMapper).toList();
+}
+public SemesterDTO lastRegisteredSemester() {
+  return semesterRepository.findFirstByOrderByEndDateDesc().map(semesterMapper).orElse(null);
  }
 }
