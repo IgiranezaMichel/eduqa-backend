@@ -26,7 +26,7 @@ public class UserController {
 public ResponseEntity<String> createUser(@RequestBody UserInput userInput) {
     return userServices.registerUser(userInput);
 }
-@PostMapping("register")
+@PostMapping("register/{courseId}")
 public ResponseEntity<String> registerLecture(@RequestBody UserInput userInput,@PathVariable String courseId) {
     return userServices.registerUser(userInput);
 }
