@@ -13,6 +13,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,10 @@ private String password;
 private byte [] picture;
 private Role role;
 private LocalDateTime timeStamp=LocalDateTime.now();
-public User(UserInput userDTO) {
+@ManyToOne(cascade = CascadeType.REMOVE,targetEntity = Department.class)
+private Department department;
+
+public User(UserInput userDTO,Department department) {
     if(userDTO.getId() != null) 
     this.id = UUID.fromString(userDTO.getId());
     if(userDTO.getName() == null)throw new IllegalArgumentException("Name is required");
