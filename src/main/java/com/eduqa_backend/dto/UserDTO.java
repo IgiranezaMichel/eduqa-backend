@@ -19,6 +19,7 @@ private String email;
 private String picture;
 private Role role;
 private String timeStamp;
+private String departmentId;
 public UserDTO(User user) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
     this.id = user.getId().toString();
