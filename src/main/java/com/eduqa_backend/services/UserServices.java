@@ -1,5 +1,7 @@
 package com.eduqa_backend.services;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -13,13 +15,16 @@ import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.input.UserInput;
 import com.eduqa_backend.mapper.UserMapper;
+import com.eduqa_backend.modal.Department;
 import com.eduqa_backend.modal.User;
+import com.eduqa_backend.repository.DepartmentRepository;
 import com.eduqa_backend.repository.UserRepository;
 import com.eduqa_backend.util.PageInput;
 
 @Service
 public class UserServices {
 @Autowired private UserRepository userRepository;
+@Autowired private DepartmentRepository departmentRepository;
 private UserMapper userMapper=new UserMapper();
 private Page<User> all;
 
@@ -33,7 +38,8 @@ public void setAll(Page<User> all) {
 
 public ResponseEntity<String> registerUser(UserInput userInput) {
   try {
-    userRepository.save(new User(userInput));
+    Department department = departmentRepository.findById(UUID.fromString(userInput.getDepartmentId())).orElseThrow(() -> new Exception("Department not found"));
+    userRepository.save(new User(userInput,department));
     return ResponseEntity.ok("User Registered Successfully");
   } catch (Exception e) {
     return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
