@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import com.eduqa_backend.dto.DepartmentDTO;
+import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.modal.Department;
 import com.eduqa_backend.repository.DepartmentRepository;
 
@@ -24,5 +25,8 @@ public ResponseEntity<String> createDepartment(DepartmentDTO entity) {
 
 public List<DepartmentDTO> getAllDepartment() {
    return departmentRepository.findAll().stream().map(DepartmentDTO::new).toList();
+}
+public List<Object[]> findAllUserWithInDepartment(Role role){
+   return departmentRepository.findAllUserWithInDepartment(role);
 }
 }
