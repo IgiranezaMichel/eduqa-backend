@@ -1,14 +1,20 @@
 package com.eduqa_backend.modal;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import com.eduqa_backend.enums.Role;
+import com.eduqa_backend.enums.UserStatus;
 import com.eduqa_backend.input.UserInput;
 import com.eduqa_backend.util.ImageConverter;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -25,7 +31,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class User {
+public class User implements UserDetails {
 @Id
 @UuidGenerator(style =Style.AUTO)
 private UUID id;
@@ -37,6 +43,7 @@ private String password;
 private byte [] picture;
 private Role role;
 private LocalDateTime timeStamp=LocalDateTime.now();
+private UserStatus status;
 @ManyToOne(cascade = CascadeType.REMOVE,targetEntity = Department.class)
 private Department department;
 
@@ -64,4 +71,32 @@ public User(UserInput userDTO,Department department) {
 public List<LectureCourse>lectureCourses;
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = Registration.class)
 public List<Registration>registrations;
+
+@Override
+public Collection<? extends GrantedAuthority> getAuthorities() {
+ return Collections.singletonList(new SimpleGrantedAuthority(this.role.toString()));
+}
+@Override
+public String getUsername() {
+ return this.email;
+}
+@Override
+public boolean isAccountNonExpired() {
+  return true;
+}
+@Override
+public boolean isAccountNonLocked() {
+    return true;
+
+}
+@Override
+public boolean isCredentialsNonExpired() {
+    return true;
+
+}
+@Override
+public boolean isEnabled() {
+    return true;
+
+}
 }

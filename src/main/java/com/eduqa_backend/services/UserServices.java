@@ -8,8 +8,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.eduqa_backend.dto.LoginInput;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.enums.Role;
@@ -19,42 +23,86 @@ import com.eduqa_backend.modal.Department;
 import com.eduqa_backend.modal.User;
 import com.eduqa_backend.repository.DepartmentRepository;
 import com.eduqa_backend.repository.UserRepository;
+import com.eduqa_backend.util.GeneratePassword;
 import com.eduqa_backend.util.PageInput;
 
 @Service
 public class UserServices {
-@Autowired private UserRepository userRepository;
-@Autowired private DepartmentRepository departmentRepository;
-private UserMapper userMapper=new UserMapper();
-private Page<User> all;
+  @Autowired
+  private UserRepository userRepository;
+  @Autowired
+  private DepartmentRepository departmentRepository;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+  @Autowired
+  private EmailServices emailServices;
+  @Autowired private AuthenticationManager authenticationManager;  
 
-public Page<User> getAll() {
+
+  private UserMapper userMapper = new UserMapper();
+  private Page<User> all;
+
+  public Page<User> getAll() {
     return all;
-}
-
-public void setAll(Page<User> all) {
-    this.all = all;
-}
-
-public ResponseEntity<String> registerUser(UserInput userInput) {
-  try {
-    Department department = departmentRepository.findById(UUID.fromString(userInput.getDepartmentId())).orElseThrow(() -> new Exception("Department not found"));
-    userRepository.save(new User(userInput,department));
-    return ResponseEntity.ok("User Registered Successfully");
-  } catch (Exception e) {
-    return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
   }
-}
 
-public Pagination<UserDTO> getAllUserPage(PageInput input,Role role) {
-    if(input.getSearch()!=null&&!input.getSearch().isEmpty()){
-        all = userRepository.findAllByRoleAndNameContainingIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),role,input.getSearch());
+  public void setAll(Page<User> all) {
+    this.all = all;
+  }
+
+  public ResponseEntity<String> registerUser(UserInput userInput) {
+    boolean userHasPassword = true;
+    String generatedPassword = GeneratePassword.generatePassword();
+    try {
+      Department department = departmentRepository.findById(UUID.fromString(userInput.getDepartmentId()))
+          .orElseThrow(() -> new Exception("Department not found"));
+      User user2 = userRepository.findByEmail(userInput.getEmail()).orElse(null);
+      if (user2 != null) {
+        return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
+      } else {
+        if (userInput.getPassword() == null || userInput.getPassword().isEmpty()) {
+          userInput.setPassword(passwordEncoder.encode(generatedPassword));
+          ;
+          userHasPassword = false;
+        } else {
+          userInput.setPassword(passwordEncoder.encode(userInput.getPassword()));
+        }
+      }
+      User user = userRepository.save(new User(userInput, department));
+      if (userHasPassword) {
+        emailServices.sendUserHavingPasswordEmailConfirmation(user);
+      } else {
+        emailServices.sendUserHavingNoPasswordEmailConfirmation(user, generatedPassword);
+      }
+      return ResponseEntity.ok("User Registered Successfully");
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
-    else   all = userRepository.findAllByRole(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),role);
-return new Pagination<>(all.getNumber(),all.getTotalPages(),all.getTotalElements(),all.getContent().stream().map(userMapper).toList());
-}
+  }
 
-public long getTotalUserByRole(Role role) {
- return userRepository.countByRole(role);
-}
+  public Pagination<UserDTO> getAllUserPage(PageInput input, Role role) {
+    if (input.getSearch() != null && !input.getSearch().isEmpty()) {
+      all = userRepository.findAllByRoleAndNameContainingIgnoreCase(
+          PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())), role,
+          input.getSearch());
+    } else
+      all = userRepository
+          .findAllByRole(PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())), role);
+    return new Pagination<>(all.getNumber(), all.getTotalPages(), all.getTotalElements(),
+        all.getContent().stream().map(userMapper).toList());
+  }
+
+  public long getTotalUserByRole(Role role) {
+    return userRepository.countByRole(role);
+  }
+  
+public User login(LoginInput input) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        input.getEmail(),
+                        input.getPassword()));
+
+        return userRepository.findByEmail(input.getEmail())
+                .orElseThrow();
+    }
 }

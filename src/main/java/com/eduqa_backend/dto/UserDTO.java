@@ -2,6 +2,7 @@ package com.eduqa_backend.dto;
 
 import java.time.format.DateTimeFormatter;
 import com.eduqa_backend.enums.Role;
+import com.eduqa_backend.enums.UserStatus;
 import com.eduqa_backend.modal.User;
 import com.eduqa_backend.util.ImageConverter;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ private String timeStamp;
 private String departmentId;
 private String departmentName;
 private int totalCourse;
+private UserStatus status;
 public UserDTO(User user) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
     this.id = user.getId().toString();
@@ -35,6 +37,7 @@ public UserDTO(User user) {
     if(user.getDepartment() != null) 
     this.departmentName = user.getDepartment().getName();
     this.totalCourse = user.getLectureCourses().size();
+    this.status = user.getStatus();
 }
 
 }

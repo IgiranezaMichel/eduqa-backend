@@ -25,14 +25,12 @@ private User user;
 @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = Course.class)
 private Course course;
 private LocalDateTime timeStamp=LocalDateTime.now();
-
 public LectureCourse(UUID id, User user, Course course) {
     this.id = id;
     this.user = user;
     this.course = course;
     this.timeStamp = LocalDateTime.now();
 }
-
 public LectureCourse(User user, Course course) {
     this.user = user;
     this.course = course;
