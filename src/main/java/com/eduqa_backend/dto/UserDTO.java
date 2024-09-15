@@ -20,6 +20,8 @@ private String picture;
 private Role role;
 private String timeStamp;
 private String departmentId;
+private String departmentName;
+private int totalCourse;
 public UserDTO(User user) {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a");
     this.id = user.getId().toString();
@@ -30,6 +32,9 @@ public UserDTO(User user) {
      this.picture = ImageConverter.convertToBase64(user.getPicture());
     this.role = user.getRole();
     this.timeStamp = formatter.format(user.getTimeStamp());
+    if(user.getDepartment() != null) 
+    this.departmentName = user.getDepartment().getName();
+    this.totalCourse = user.getLectureCourses().size();
 }
 
 }
