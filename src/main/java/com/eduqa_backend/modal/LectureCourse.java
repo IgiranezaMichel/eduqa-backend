@@ -3,6 +3,9 @@ package com.eduqa_backend.modal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.UuidGenerator.Style;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -15,6 +18,7 @@ import lombok.*;
 @Data
 public class LectureCourse {
 @Id
+@UuidGenerator(style = Style.AUTO)
 private UUID id;
 @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = User.class)
 private User user;
