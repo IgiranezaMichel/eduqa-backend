@@ -57,6 +57,8 @@ public User(UserInput userDTO,Department department) {
     this.picture = ImageConverter.convertToByteArray(userDTO.getPicture());
     if(userDTO.getRole() == null)throw new IllegalArgumentException("Role is required");
     this.role = userDTO.getRole();
+    if(department == null)throw new IllegalArgumentException("Department is required");
+    this.department=department;
 }
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = LectureCourse.class)
 public List<LectureCourse>lectureCourses;
