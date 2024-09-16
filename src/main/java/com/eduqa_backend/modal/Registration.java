@@ -9,8 +9,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import java.util.*;
 import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
@@ -37,5 +39,6 @@ public Registration(String id,User user, Semester semester) {
     this.semester = semester;
     this.timeStamp=LocalDateTime.now();
 }
-
+@OneToMany(cascade = CascadeType.REMOVE,mappedBy = "registration",fetch = FetchType.LAZY,targetEntity = StudentRegisterCourses.class)
+public List<StudentRegisterCourses>StudentRegisteredCourses;
 }
