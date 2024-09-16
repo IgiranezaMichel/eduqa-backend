@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
 
-import com.eduqa_backend.dto.LectureCourseDTO;
+import com.eduqa_backend.dto.CourseDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.LectureCourseInput;
 import com.eduqa_backend.mapper.LectureCourseMapper;
@@ -20,7 +20,7 @@ import com.eduqa_backend.repository.CourseRepository;
 import com.eduqa_backend.repository.LectureCourseRepository;
 import com.eduqa_backend.repository.UserRepository;
 import com.eduqa_backend.util.PageInput;
-
+import java.security.*;
 @Service
 public class LectureCourseServices {
 @Autowired private LectureCourseRepository lectureCourseRepository;
@@ -38,14 +38,16 @@ public ResponseEntity<String> registerLectureCourses(LectureCourseInput data) {
    }
    
 }
-public Pagination<LectureCourseDTO> getLectureCoursesPage(PageInput input) {
+public Pagination<CourseDTO> getLectureCoursesPage(PageInput input,Principal principal) {
     if (input.getSearch()!=null) {
-        Page<LectureCourse>page = lectureCourseRepository.findAllByCourseNameIgnoreCase(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch());
-        return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(lectureCourseMapper).toList());
- 
+        Page<LectureCourse>page = lectureCourseRepository.findAllByCourseNameIgnoreCaseAndUserEmail(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),input.getSearch(),principal.getName());
+        return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(i->new CourseDTO(i.getCourse())).toList());
    }
-   Page<LectureCourse>page = lectureCourseRepository.findAll(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
-   return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(lectureCourseMapper).toList());
+   Page<LectureCourse>page = lectureCourseRepository.findAllByUserEmail(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),principal.getName());
+   return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(i->new CourseDTO(i.getCourse())).toList());
 
  }
+public long  getTotalLectureCourse(Principal principal) {
+  return lectureCourseRepository.countByUserEmail(principal.getName());
+}
 }

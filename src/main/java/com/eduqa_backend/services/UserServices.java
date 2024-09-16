@@ -1,19 +1,15 @@
 package com.eduqa_backend.services;
 
+import java.util.Optional;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
-import com.eduqa_backend.dto.LoginInput;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.enums.Role;
@@ -33,11 +29,8 @@ public class UserServices {
   @Autowired
   private DepartmentRepository departmentRepository;
   @Autowired
-  private PasswordEncoder passwordEncoder;
-  @Autowired
   private EmailServices emailServices;
-  @Autowired private AuthenticationManager authenticationManager;  
-
+  // @Autowired private AuthenticationManager authenticationManager;  
 
   private UserMapper userMapper = new UserMapper();
   private Page<User> all;
@@ -51,21 +44,22 @@ public class UserServices {
   }
 
   public ResponseEntity<String> registerUser(UserInput userInput) {
+    Department department=new Department();
     boolean userHasPassword = true;
     String generatedPassword = GeneratePassword.generatePassword();
     try {
-      Department department = departmentRepository.findById(UUID.fromString(userInput.getDepartmentId()))
+      if((userInput.getRole()!=Role.ROLE_ADMIN)&&userInput.getRole()!=Role.ROLE_HOD)
+          department = departmentRepository.findById(UUID.fromString(userInput.getDepartmentId()))
           .orElseThrow(() -> new Exception("Department not found"));
       User user2 = userRepository.findByEmail(userInput.getEmail()).orElse(null);
       if (user2 != null) {
         return new ResponseEntity<>("User already exists", HttpStatus.BAD_REQUEST);
       } else {
         if (userInput.getPassword() == null || userInput.getPassword().isEmpty()) {
-          userInput.setPassword(passwordEncoder.encode(generatedPassword));
-          ;
+          userInput.setPassword(BCrypt.hashpw(generatedPassword, BCrypt.gensalt()));
           userHasPassword = false;
         } else {
-          userInput.setPassword(passwordEncoder.encode(userInput.getPassword()));
+          userInput.setPassword(BCrypt.hashpw(userInput.getPassword(),BCrypt.gensalt()));
         }
       }
       User user = userRepository.save(new User(userInput, department));
@@ -95,14 +89,16 @@ public class UserServices {
   public long getTotalUserByRole(Role role) {
     return userRepository.countByRole(role);
   }
-  
-public User login(LoginInput input) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getEmail(),
-                        input.getPassword()));
+  public Optional<User> findByEmail(String email){
+    return userRepository.findByEmail(email);
+  }
+// public User login(LoginInput input) {
+//         authenticationManager.authenticate(
+//                 new UsernamePasswordAuthenticationToken(
+//                         input.getEmail(),
+//                         input.getPassword()));
 
-        return userRepository.findByEmail(input.getEmail())
-                .orElseThrow();
-    }
+//         return userRepository.findByEmail(input.getEmail())
+//                 .orElseThrow();
+//     }
 }
