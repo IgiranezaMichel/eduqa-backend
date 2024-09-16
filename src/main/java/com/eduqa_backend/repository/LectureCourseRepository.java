@@ -9,7 +9,9 @@ import org.springframework.stereotype.Repository;
 import com.eduqa_backend.modal.LectureCourse;
 @Repository
 public interface LectureCourseRepository extends JpaRepository<LectureCourse,UUID>{
-
     Page<LectureCourse> findAllByCourseNameIgnoreCase(PageRequest of,String name);
+    Page<LectureCourse> findAllByCourseNameIgnoreCaseAndUserEmail(PageRequest of, String search, String name);
+    Page<LectureCourse> findAllByUserEmail(PageRequest of, String name);
+    long countByUserEmail(String name);
 
 }
