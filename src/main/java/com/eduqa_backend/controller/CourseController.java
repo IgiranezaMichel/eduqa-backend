@@ -9,12 +9,10 @@ import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.services.CourseServices;
 import com.eduqa_backend.util.PageInput;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 @RestController
-@CrossOrigin
 @RequestMapping("/api/course")
 public class CourseController {
 @Autowired private CourseServices courseServices;
