@@ -44,27 +44,31 @@ private byte [] picture;
 private Role role;
 private LocalDateTime timeStamp=LocalDateTime.now();
 private UserStatus status;
-@ManyToOne(cascade = CascadeType.REMOVE,targetEntity = Department.class)
+@ManyToOne(cascade = CascadeType.REMOVE,targetEntity = Department.class,optional = true)
 private Department department;
 
 public User(UserInput userDTO,Department department) {
     if(userDTO.getId() != null) 
     this.id = UUID.fromString(userDTO.getId());
-    if(userDTO.getName() == null)throw new IllegalArgumentException("Name is required");
+    if(userDTO.getName() == null||userDTO.getName().isEmpty())throw new IllegalArgumentException("Name is required");
     this.name = userDTO.getName();
-    if(userDTO.getGender() == null)throw new IllegalArgumentException("Gender is required");
+    if(userDTO.getGender() == null||userDTO.getGender().isEmpty())throw new IllegalArgumentException("Gender is required");
     this.gender = userDTO.getGender();
-    if(userDTO.getPhoneNumber() == null)throw new IllegalArgumentException("Phone number is required");
+    if(userDTO.getPhoneNumber() == null||userDTO.getPhoneNumber().isEmpty())throw new IllegalArgumentException("Phone number is required");
     this.phoneNumber = userDTO.getPhoneNumber();
-    if(userDTO.getEmail() == null)throw new IllegalArgumentException("Email is required");
+    if(userDTO.getEmail() == null||userDTO.getEmail().isEmpty())throw new IllegalArgumentException("Email is required");
     this.email = userDTO.getEmail();
-    if(userDTO.getPassword() == null)throw new IllegalArgumentException("Password is required");
+    if(userDTO.getPassword() == null||userDTO.getPassword().isEmpty())throw new IllegalArgumentException("Password is required");
     this.password = userDTO.getPassword();
-    if(userDTO.getPicture() == null)throw new IllegalArgumentException("Picture is required");
+    if(userDTO.getPicture() == null||userDTO.getPicture().isEmpty())throw new IllegalArgumentException("Picture is required");
     this.picture = ImageConverter.convertToByteArray(userDTO.getPicture());
-    if(userDTO.getRole() == null)throw new IllegalArgumentException("Role is required");
+    if(userDTO.getRole() == null||userDTO.getRole().name().isEmpty())throw new IllegalArgumentException("Role is required");
     this.role = userDTO.getRole();
-    if(department == null)throw new IllegalArgumentException("Department is required");
+    if(userDTO.getRole()==Role.ROLE_ADMIN||userDTO.getRole()==Role.ROLE_HOD){
+        this.department=null;}
+    else if(department.getId() == null){
+            throw new IllegalArgumentException("Department is required");
+    }
     this.department=department;
 }
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = LectureCourse.class)
