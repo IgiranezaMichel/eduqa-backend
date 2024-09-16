@@ -43,4 +43,7 @@ public Course(UUID id, String code, String name, byte credit, LocalDateTime time
 public List<LectureCourse>lectureCourses;
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "course",targetEntity = SemesterCourse.class)
 public List<SemesterCourse>semesterCourses;
+
+@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "course",targetEntity = StudentRegisterCourses.class)
+public List<StudentRegisterCourses>registerCourses;
 }
