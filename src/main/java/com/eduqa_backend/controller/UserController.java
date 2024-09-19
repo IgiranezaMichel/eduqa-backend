@@ -8,7 +8,7 @@ import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.input.UserInput;
 import com.eduqa_backend.services.UserServices;
 import com.eduqa_backend.util.PageInput;
-
+import com.eduqa_backend.enums.UserStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,11 +35,11 @@ public ResponseEntity<String> updateUserInformation(@RequestBody UserInput userI
     return userServices.registerUser(userInput);
 }
 @PostMapping("get/all")
-public Pagination<UserDTO> getAllUserPage(@RequestBody PageInput userInput,@RequestParam Role role) {
-    return userServices.getAllUserPage(userInput,role);
+public Pagination<UserDTO> getAllUserPage(@RequestBody PageInput userInput,@RequestParam Role role,@RequestParam UserStatus status) {
+    return userServices.getAllUserPage(userInput,role,status);
 }
 @GetMapping("get/total/by-role")
-public long countUserByRole(@RequestParam Role role) {
-    return userServices.getTotalUserByRole(role);
+public long countUserByRole(@RequestParam Role role,@RequestParam UserStatus status) {
+    return userServices.getTotalUserByRole(role,status);
 }
 }

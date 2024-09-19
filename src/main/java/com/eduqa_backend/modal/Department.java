@@ -25,7 +25,7 @@ public class Department {
 @UuidGenerator(style = Style.AUTO)
 private UUID id;
 private String name;
-@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "department",targetEntity = User.class)
+@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "department",targetEntity = User.class)
 public List<User>users;
 public Department(DepartmentDTO entity) {
     if(entity.getId()!=null&&!entity.getId().isEmpty())

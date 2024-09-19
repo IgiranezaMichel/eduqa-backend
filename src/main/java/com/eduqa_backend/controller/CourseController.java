@@ -1,5 +1,7 @@
 package com.eduqa_backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,10 @@ public ResponseEntity<String> registerCourse(@RequestBody Course entity) {
 @PostMapping("get/all")
 public Pagination<CourseDTO> getAllCoursespage(@RequestBody PageInput pageInput) {    
     return courseServices.getCoursePage(pageInput);
+}
+@PostMapping("all")
+public List<CourseDTO> getAllCourses() {    
+    return courseServices.getAllCourses();
 }
 @GetMapping("get/tatal")
 public long getTotalCourse() {    

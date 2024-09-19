@@ -52,6 +52,9 @@ public Semester(SemesterDTO semesterDTO) {
     this.endDate = LocalDate.parse(semesterDTO.getEndDate());
 }
 
+@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = LectureCourse.class, mappedBy = "semester")
+private List<LectureCourse>lectureCourses;
+
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = SemesterCourse.class, mappedBy = "semester")
 private List<SemesterCourse>semesterCourses;
 

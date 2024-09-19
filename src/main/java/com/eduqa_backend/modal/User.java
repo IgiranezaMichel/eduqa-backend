@@ -1,30 +1,18 @@
 package com.eduqa_backend.modal;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.eduqa_backend.enums.Role;
-import com.eduqa_backend.enums.UserStatus;
+import com.eduqa_backend.enums.*;
 import com.eduqa_backend.input.UserInput;
 import com.eduqa_backend.util.ImageConverter;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 @Table(name = "users")
 @Data
@@ -36,15 +24,20 @@ public class User implements UserDetails {
 @UuidGenerator(style =Style.AUTO)
 private UUID id;
 private String name;
+@Column(unique = true)
+private String code;
 private String gender;
 private String phoneNumber;
 private String email;
 private String password;
 private byte [] picture;
+@Enumerated(value = EnumType.STRING)
 private Role role;
 private LocalDateTime timeStamp=LocalDateTime.now();
+@Enumerated(value = EnumType.STRING)
 private UserStatus status;
-@ManyToOne(cascade = CascadeType.REMOVE,targetEntity = Department.class,optional = true)
+
+@ManyToOne(cascade = CascadeType.ALL,targetEntity = Department.class,optional = true,fetch = FetchType.LAZY)
 private Department department;
 
 public User(UserInput userDTO,Department department) {
@@ -70,9 +63,12 @@ public User(UserInput userDTO,Department department) {
             throw new IllegalArgumentException("Department is required");
     }
     this.department=department;
+    this.status=userDTO.getStatus();
+    this.code=userDTO.getCode();
 }
-@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = LectureCourse.class)
+@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = LectureCourse.class)
 public List<LectureCourse>lectureCourses;
+
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = Registration.class)
 public List<Registration>registrations;
 

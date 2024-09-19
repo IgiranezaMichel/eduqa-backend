@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 public class UserDTO {
 private String id;
 private String name;
+private String code;
 private String gender;
 private String phoneNumber;
 private String email;
@@ -38,6 +39,7 @@ public UserDTO(User user) {
     this.departmentName = user.getDepartment().getName();
     this.totalCourse = user.getLectureCourses().size();
     this.status = user.getStatus();
+    this.code=user.getCode();
 }
 
 }

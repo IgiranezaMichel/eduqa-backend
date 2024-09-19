@@ -10,4 +10,6 @@ public class LectureCourseInput {
 private String id;
 private String userId;
 private String courseId;
+private String group;
+private String semesterId;
 }

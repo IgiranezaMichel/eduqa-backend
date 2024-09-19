@@ -15,23 +15,30 @@ import com.eduqa_backend.input.LectureCourseInput;
 import com.eduqa_backend.mapper.LectureCourseMapper;
 import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.modal.LectureCourse;
+import com.eduqa_backend.modal.Semester;
 import com.eduqa_backend.modal.User;
 import com.eduqa_backend.repository.CourseRepository;
 import com.eduqa_backend.repository.LectureCourseRepository;
+import com.eduqa_backend.repository.SemesterRepository;
 import com.eduqa_backend.repository.UserRepository;
 import com.eduqa_backend.util.PageInput;
 import java.security.*;
+import java.util.*;
 @Service
 public class LectureCourseServices {
 @Autowired private LectureCourseRepository lectureCourseRepository;
 @Autowired private UserRepository userRepository;
 @Autowired private CourseRepository courseRepository;
+@Autowired private SemesterRepository semesterRepository;
 private LectureCourseMapper lectureCourseMapper = new LectureCourseMapper();
 public ResponseEntity<String> registerLectureCourses(LectureCourseInput data) {
    try {
     Course course = courseRepository.findById(UUID.fromString(data.getCourseId())).orElseThrow(() -> new RuntimeException("Course not found"));
     User user = userRepository.findById(UUID.fromString(data.getUserId())).orElseThrow(() -> new RuntimeException("Lecture not found"));
-    lectureCourseRepository.save(new LectureCourse(user, course));
+    Semester semester = semesterRepository.findById(UUID.fromString(data.getSemesterId())).orElseThrow(() -> new RuntimeException("Semester not found"));
+    LectureCourse lectureCourse = lectureCourseRepository.findByUserAndCourseAndGroup(user,course,data.getGroup()).orElse(null);
+    if(lectureCourse != null) {throw new RuntimeException("Lecture Course already registered");}
+    lectureCourseRepository.save(new LectureCourse(user, course,semester));
     return new ResponseEntity<>("Lecture Course registered successfully", HttpStatus.OK);
    } catch (Exception e) {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
