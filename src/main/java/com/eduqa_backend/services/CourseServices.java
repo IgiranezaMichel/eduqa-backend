@@ -1,6 +1,7 @@
 package com.eduqa_backend.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -49,5 +50,9 @@ public long countCourse() {
 
 public List<CourseDTO> getAllCourses() {
    return courseRepository.findAll().stream().map(courseMapper).toList();
+}
+public Pagination<CourseDTO> findAvailableCourseWithInASemester(PageInput input,String semesterId) {
+   Page<Course>page = courseRepository.findAvailableCourseWithInASemester(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),UUID.fromString(semesterId));
+   return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(courseMapper).toList());
 }
 }
