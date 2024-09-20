@@ -1,15 +1,24 @@
 package com.eduqa_backend.repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.modal.Registration;
-@Repository
-public interface RegistrationRepository extends JpaRepository<Registration,UUID> {
+import com.eduqa_backend.modal.User;
 
-    Page<Registration> findAllBySemesterNameIgnoreCase(PageRequest of,String name);
+@Repository
+public interface RegistrationRepository extends JpaRepository<Registration, UUID> {
+    Page<Registration> findAllBySemesterNameIgnoreCase(PageRequest of, String name);
+
+    Optional<Registration> findByUserIdAndSemesterId(UUID id, UUID id2);
+
+    @Query("SELECT u  FROM User u JOIN Registration r ON u.id = r.user.id AND r.semester.id=:semesterId where u.role=:role")
+    Page<User> getAvailabelUserRegisterdForASemesterPage(PageRequest of, UUID semesterId, Role role);
 
 }
