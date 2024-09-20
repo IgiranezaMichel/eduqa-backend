@@ -12,6 +12,7 @@ import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.services.CourseServices;
 import com.eduqa_backend.util.PageInput;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 @RestController
@@ -33,5 +34,9 @@ public List<CourseDTO> getAllCourses() {
 @GetMapping("get/tatal")
 public long getTotalCourse() {    
     return courseServices.countCourse();
+}
+@PostMapping("get/available/by-semester/{semesterId}")
+public Pagination<CourseDTO> getAvailabelCourseWithInASemesterPage(@RequestBody PageInput pageInput,@PathVariable String semesterId) {
+    return courseServices.findAvailableCourseWithInASemester(pageInput,semesterId);
 }
 }
