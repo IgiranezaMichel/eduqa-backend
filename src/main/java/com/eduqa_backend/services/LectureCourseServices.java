@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.UUID;
-
 import com.eduqa_backend.dto.CourseDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.LectureCourseInput;
@@ -23,7 +22,6 @@ import com.eduqa_backend.repository.SemesterRepository;
 import com.eduqa_backend.repository.UserRepository;
 import com.eduqa_backend.util.PageInput;
 import java.security.*;
-import java.util.*;
 @Service
 public class LectureCourseServices {
 @Autowired private LectureCourseRepository lectureCourseRepository;
