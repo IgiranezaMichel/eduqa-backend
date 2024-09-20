@@ -1,5 +1,6 @@
 package com.eduqa_backend.services;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,6 +116,10 @@ public class UserServices {
   }
   public Optional<User> findByEmail(String email){
     return userRepository.findByEmail(email);
+  }
+
+  public List<UserDTO> getAllUserByRoleAndStatus(Role role,UserStatus status) {
+    return userRepository.findAllByRoleAndStatus(role,status).stream().map(userMapper).toList();
   }
 // public User login(LoginInput input) {
 //         authenticationManager.authenticate(
