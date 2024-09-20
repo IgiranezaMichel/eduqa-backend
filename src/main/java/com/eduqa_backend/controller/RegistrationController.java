@@ -1,15 +1,19 @@
 package com.eduqa_backend.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.RegistrationDTO;
+import com.eduqa_backend.dto.UserDTO;
+import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.input.RegistrationInput;
 import com.eduqa_backend.services.RegistrationServices;
 import com.eduqa_backend.util.PageInput;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -26,5 +30,8 @@ return registrationService.registerStudent(registrationInput);
 public Pagination<RegistrationDTO> getLectureCourses(@RequestBody PageInput input) {
     return registrationService.getLectureCoursesPage(input);
 }
-
+@PostMapping("get/available/by-semester/{semesterId}")
+public Pagination<UserDTO> getAvailabelUserRegisteredForASemesterPage(@RequestBody PageInput pageInput,@PathVariable String semesterId,@RequestParam Role role) {
+    return registrationService.getAvailabelUserRegisteredForASemesterPage(pageInput,semesterId,role);
+}
 }
