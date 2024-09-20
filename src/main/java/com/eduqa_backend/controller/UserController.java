@@ -1,7 +1,11 @@
 package com.eduqa_backend.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+
+import com.eduqa_backend.dto.CourseDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.enums.Role;
@@ -41,5 +45,9 @@ public Pagination<UserDTO> getAllUserPage(@RequestBody PageInput userInput,@Requ
 @GetMapping("get/total/by-role")
 public long countUserByRole(@RequestParam Role role,@RequestParam UserStatus status) {
     return userServices.getTotalUserByRole(role,status);
+}
+@GetMapping("get/all/by-role-and-status")
+public List<UserDTO> getUserById(@RequestParam Role role,@RequestParam UserStatus status) {
+    return userServices.getAllUserByRoleAndStatus(role,status);
 }
 }
