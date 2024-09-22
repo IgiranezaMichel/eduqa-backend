@@ -9,11 +9,14 @@ import com.eduqa_backend.input.LectureCourseInput;
 import com.eduqa_backend.services.LectureCourseServices;
 import com.eduqa_backend.util.PageInput;
 import java.security.*;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -27,6 +30,12 @@ public class LectureCourseController {
 public ResponseEntity<String> registerLectureCourses(@RequestBody LectureCourseInput data) {    
     return lectureCourseService.registerLectureCourses(data);
 }
+@GetMapping("all/{id}")
+@PreAuthorize("hasRole('ROLE_ROLE_HOD') or hasRole('ROLE_ADMIN')")
+public List<CourseDTO> getListOfLectureCourses(@PathVariable String id) {
+    return lectureCourseService.getListOfLectureCourses(id);
+}
+
 @PostMapping("all/courses")
 @Secured("ROLE_INSTRUCTOR")
 public Pagination<CourseDTO> getLectureCourses(Principal principal,@RequestBody PageInput input) {
