@@ -1,6 +1,7 @@
 package com.eduqa_backend.services;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -44,4 +45,7 @@ public List<SemesterDTO> getAllSemester() {
 public SemesterDTO lastRegisteredSemester() {
   return semesterRepository.findFirstByOrderByEndDateDesc().map(semesterMapper).orElse(null);
  }
+public SemesterDTO getSemesterById(String id) {
+ return semesterRepository.findById(UUID.fromString(id)).map(semesterMapper).orElse(null);
+}
 }
