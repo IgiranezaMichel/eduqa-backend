@@ -54,5 +54,8 @@ public Pagination<UserDTO> getAvailabelUserRegisteredForASemesterPage(PageInput 
          Page<User>page = registrationRepository.getAvailabelUserRegisterdForASemesterPage(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())),UUID.fromString(semesterId),role);
          return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(userMapper).toList()); 
 }
+public Object getSemesterRegistrationCountStatus(Role role,String semesterId) {
+   return registrationRepository.getSemesterRegistrationCountStatus(role,UUID.fromString(semesterId));
+}
 }
 
