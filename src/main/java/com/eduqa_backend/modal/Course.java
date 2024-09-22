@@ -12,38 +12,43 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.*;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class Course {
-@Id
-@UuidGenerator(style = Style.AUTO)
-private UUID id;
-@Column(name = "code",unique = true)
-private String code;
-private String name;
-private byte credit;
-private LocalDateTime timeStamp=LocalDateTime.now();
+    @Id
+    @UuidGenerator(style = Style.AUTO)
+    private UUID id;
+    @Column(name = "code", unique = true)
+    private String code;
+    private String name;
+    @Column(name = "courseDuration")
+    private int duration;
+    private int credit;
+    private LocalDateTime timeStamp = LocalDateTime.now();
 
-public Course(String code, String name, byte credit, LocalDateTime timeStamp) {
-    this.code = code;
-    this.name = name;
-    this.credit = credit;
-    this.timeStamp = timeStamp;
-}
-public Course(UUID id, String code, String name, byte credit, LocalDateTime timeStamp) {
-    this.id = id;
-    this.code = code;
-    this.name = name;
-    this.credit = credit;
-    this.timeStamp = timeStamp;
-}
-@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "course",targetEntity = LectureCourse.class)
-public List<LectureCourse>lectureCourses;
-@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "course",targetEntity = SemesterCourse.class)
-public List<SemesterCourse>semesterCourses;
+    public Course(String code, String name, byte credit, LocalDateTime timeStamp) {
+        this.code = code;
+        this.name = name;
+        this.credit = credit;
+        this.timeStamp = timeStamp;
+        this.duration = credit * 1;
+    }
 
-@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "course",targetEntity = StudentRegisterCourses.class)
-public List<StudentRegisterCourses>registerCourses;
+    public Course(UUID id, String code, String name, byte credit, LocalDateTime timeStamp) {
+        this.id = id;
+        this.code = code;
+        this.name = name;
+        this.credit = credit;
+        this.timeStamp = timeStamp;
+        this.duration = credit * 1;
+
+    }
+
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "course", targetEntity = LectureCourse.class)
+    public List<LectureCourse> lectureCourses;
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "course", targetEntity = SemesterCourse.class)
+    public List<SemesterCourse> semesterCourses;
 }
