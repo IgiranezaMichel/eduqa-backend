@@ -22,15 +22,6 @@ public interface RegistrationRepository extends JpaRepository<Registration, UUID
 
     @Query("SELECT u  FROM User u JOIN Registration r ON u.id = r.user.id AND r.semester.id=:semesterId where u.role=:role")
     Page<User> getAvailabelUserRegisterdForASemesterPage(PageRequest of, UUID semesterId, Role role);
-
-    // @Query("""
-    // SELECT
-    // COUNT(CASE WHEN r.user.id IS NOT NULL THEN 1 END),
-    // COUNT(CASE WHEN r.user.id IS NULL THEN 1 END)
-    // FROM User u
-    // LEFT JOIN Registration r ON u.id = r.user.id where u.role=:role AND
-    // r.semester.id=:semesterId
-    // """)
     @Query("""
         SELECT 
         new com.eduqa_backend.dto.DualValueChartDTO( CASE 
@@ -45,4 +36,5 @@ public interface RegistrationRepository extends JpaRepository<Registration, UUID
         GROUP BY registrationStatus
             """)
     List<DualValueChartDTO> getSemesterRegistrationCountStatus(Role role, UUID semesterId);
+    Page<Registration> findAllByUserEmail(String name, PageRequest of);
 }
