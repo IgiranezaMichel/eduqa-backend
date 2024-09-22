@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class StudentRegisterCourseInput {
     private String id;
-    private String courseId;
+    private String lectureCourseId;
     private String registrationId;
 }
