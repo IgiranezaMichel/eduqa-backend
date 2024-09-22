@@ -13,25 +13,35 @@ import com.eduqa_backend.util.PageInput;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/api/registration")
 public class RegistrationController {
-    @Autowired private RegistrationServices registrationService;
-@PostMapping("register")
-public ResponseEntity<String> registerStudent(@RequestBody RegistrationInput registrationInput) {
-return registrationService.registerStudent(registrationInput);
-}
-@PostMapping("get/all/registration-history")
-public Pagination<RegistrationDTO> getLectureCourses(@RequestBody PageInput input) {
-    return registrationService.getLectureCoursesPage(input);
-}
-@PostMapping("get/available/by-semester/{semesterId}")
-public Pagination<UserDTO> getAvailabelUserRegisteredForASemesterPage(@RequestBody PageInput pageInput,@PathVariable String semesterId,@RequestParam Role role) {
-    return registrationService.getAvailabelUserRegisteredForASemesterPage(pageInput,semesterId,role);
-}
+    @Autowired
+    private RegistrationServices registrationService;
+
+    @PostMapping("register")
+    public ResponseEntity<String> registerStudent(@RequestBody RegistrationInput registrationInput) {
+        return registrationService.registerStudent(registrationInput);
+    }
+
+    @PostMapping("get/all/registration-history")
+    public Pagination<RegistrationDTO> getLectureCourses(@RequestBody PageInput input) {
+        return registrationService.getLectureCoursesPage(input);
+    }
+
+    @PostMapping("get/available/by-semester/{semesterId}")
+    public Pagination<UserDTO> getAvailabelUserRegisteredForASemesterPage(@RequestBody PageInput pageInput,
+            @PathVariable String semesterId, @RequestParam Role role) {
+        return registrationService.getAvailabelUserRegisteredForASemesterPage(pageInput, semesterId, role);
+    }
+
+    @GetMapping("get/semester/registration/count/status/{semesterId}")
+    public Object getSemesterRegistrationCountStatus(@PathVariable String semesterId, @RequestParam Role role) {
+        return registrationService.getSemesterRegistrationCountStatus(role, semesterId);
+    }
 }
