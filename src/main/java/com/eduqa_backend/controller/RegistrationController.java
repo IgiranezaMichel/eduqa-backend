@@ -11,6 +11,8 @@ import com.eduqa_backend.input.RegistrationInput;
 import com.eduqa_backend.services.RegistrationServices;
 import com.eduqa_backend.util.PageInput;
 
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,5 +45,10 @@ public class RegistrationController {
     @GetMapping("get/semester/registration/count/status/{semesterId}")
     public Object getSemesterRegistrationCountStatus(@PathVariable String semesterId, @RequestParam Role role) {
         return registrationService.getSemesterRegistrationCountStatus(role, semesterId);
+    }
+
+    @PostMapping("get/registration/history")
+    public Pagination<RegistrationDTO> getRegistrationHistory(@RequestBody PageInput input,Principal principal) {
+        return registrationService.getStudentRegistrationHistory(input,principal);
     }
 }
