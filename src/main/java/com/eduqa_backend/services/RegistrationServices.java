@@ -15,6 +15,8 @@ import com.eduqa_backend.mapper.UserMapper;
 import com.eduqa_backend.modal.*;
 import com.eduqa_backend.repository.*;
 import com.eduqa_backend.util.PageInput;
+
+import java.security.Principal;
 import java.util.UUID;
 @Service
 public class RegistrationServices {
@@ -56,6 +58,12 @@ public Pagination<UserDTO> getAvailabelUserRegisteredForASemesterPage(PageInput 
 }
 public Object getSemesterRegistrationCountStatus(Role role,String semesterId) {
    return registrationRepository.getSemesterRegistrationCountStatus(role,UUID.fromString(semesterId));
+}
+
+public Pagination<RegistrationDTO> getStudentRegistrationHistory(PageInput input, Principal principal) {
+   Page<Registration>page= registrationRepository.findAllByUserEmail(principal.getName(),PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
+   return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(registrationMapper).toList());
+
 }
 }
 
