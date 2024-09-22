@@ -7,10 +7,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 import com.eduqa_backend.dto.CourseDTO;
+import com.eduqa_backend.dto.LectureCourseDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.LectureCourseInput;
+import com.eduqa_backend.mapper.CoursesMapper;
 import com.eduqa_backend.mapper.LectureCourseMapper;
 import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.modal.LectureCourse;
@@ -29,6 +33,7 @@ public class LectureCourseServices {
 @Autowired private CourseRepository courseRepository;
 @Autowired private SemesterRepository semesterRepository;
 private LectureCourseMapper lectureCourseMapper = new LectureCourseMapper();
+private CoursesMapper coursesMapper=new CoursesMapper();
 public ResponseEntity<String> registerLectureCourses(LectureCourseInput data) {
    try {
     Course course = courseRepository.findById(UUID.fromString(data.getCourseId())).orElseThrow(() -> new RuntimeException("Course not found"));
@@ -54,5 +59,8 @@ public Pagination<CourseDTO> getLectureCoursesPage(PageInput input,Principal pri
  }
 public long  getTotalLectureCourse(Principal principal) {
   return lectureCourseRepository.countByUserEmail(principal.getName());
+}
+public List<CourseDTO> getListOfLectureCourses(String id) {
+return lectureCourseRepository.findAllByUserId(UUID.fromString(id)).stream().map(coursesMapper).toList();
 }
 }
