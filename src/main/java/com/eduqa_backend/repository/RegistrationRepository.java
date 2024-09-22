@@ -8,6 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import java.util.*;
+import com.eduqa_backend.dto.DualValueChartDTO;
 import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.modal.Registration;
 import com.eduqa_backend.modal.User;
@@ -21,4 +23,26 @@ public interface RegistrationRepository extends JpaRepository<Registration, UUID
     @Query("SELECT u  FROM User u JOIN Registration r ON u.id = r.user.id AND r.semester.id=:semesterId where u.role=:role")
     Page<User> getAvailabelUserRegisterdForASemesterPage(PageRequest of, UUID semesterId, Role role);
 
+    // @Query("""
+    // SELECT
+    // COUNT(CASE WHEN r.user.id IS NOT NULL THEN 1 END),
+    // COUNT(CASE WHEN r.user.id IS NULL THEN 1 END)
+    // FROM User u
+    // LEFT JOIN Registration r ON u.id = r.user.id where u.role=:role AND
+    // r.semester.id=:semesterId
+    // """)
+    @Query("""
+        SELECT 
+        new com.eduqa_backend.dto.DualValueChartDTO( CASE 
+        WHEN r.user.id IS NOT NULL THEN 'Registered' 
+        ELSE 'Not Registered' 
+        END AS registrationStatus, 
+        COUNT(u.id) AS count)
+
+        FROM User u
+        LEFT JOIN Registration r ON u.id = r.user.id AND r.semester.id =:semesterId
+        where u.role=:role
+        GROUP BY registrationStatus
+            """)
+    List<DualValueChartDTO> getSemesterRegistrationCountStatus(Role role, UUID semesterId);
 }
