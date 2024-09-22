@@ -20,5 +20,9 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse,UUI
     Optional<LectureCourse> findByUserAndCourseAndGroup(User user, Course course, String group);
     @Query("SELECT c FROM Course c JOIN LectureCourse lc ON c.id=lc.course.id WHERE lc.user.id=:userId")
     List<Course> findAllByUserId(UUID userId);
+    Optional<LectureCourse> findByCourseAndGroup(Course course, String group);
+    Page<LectureCourse> findAllByUserEmailAndSemesterId(PageRequest of, String name, UUID fromString);
+    Page<LectureCourse> findAllByCourseNameIgnoreCaseAndUserEmailAndSemesterId(PageRequest of, String search,
+            String name, UUID fromString);
 
 }
