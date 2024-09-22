@@ -27,7 +27,7 @@ public ResponseEntity<String> registerCourse(@RequestBody Course entity) {
 public Pagination<CourseDTO> getAllCoursespage(@RequestBody PageInput pageInput) {    
     return courseServices.getCoursePage(pageInput);
 }
-@PostMapping("all")
+@GetMapping("all")
 public List<CourseDTO> getAllCourses() {    
     return courseServices.getAllCourses();
 }
