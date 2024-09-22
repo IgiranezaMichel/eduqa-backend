@@ -41,7 +41,7 @@ public class EmailServices {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to Amal Health Africa</title>
+          <title>Welcome to Edu qa</title>
           <style>
             .body {
               background: linear-gradient(to right, #4fd1c5, #63b3ed);
@@ -112,10 +112,10 @@ public class EmailServices {
             <div class="header">
               <img src="https://lh3.googleusercontent.com/d/1fAdwRZg5hbP7A5TtcAGrQYU1kZkYBrh2" alt="Company Logo" />
               <div class="title">
-                Amal Health <br>Africa
+                Edu <br>Qua
               </div>
             </div>
-            <h1 class="h1">Welcome to Amal Health Africa!</h1>
+            <h1 class="h1">Welcome to Edu qa!</h1>
             <p class="p">
               Dear  """
         + users.getName() +
@@ -125,12 +125,12 @@ public class EmailServices {
                   We're excited to let you know that your account has been successfully created.
                 </p>
                 <p class="p">
-                  Thank you for joining us! If you have any questions or need support, feel free to reach out to our support team at <a href="mailto:amal.healthafrica@gmail.com">support@company.com</a>
-                  or visit our website via <a href="http://www.amalhealthafrica.com">www.amalhealthafrica.com</a>
+                  Thank you for joining us! If you have any questions or need support, feel free to reach out to our support team at <a href="mailto:edu.qua@gmail.com">support@company.com</a>
+                  or visit our website via <a href="http://www.eduqua.com">www.eduqa.com</a>
                 </p>
                 <p class="signature p">
                   Best regards,<br />
-                  The Amal Health Africa Team
+                  The Edu qa Team
                 </p>
               </div>
             </body>
@@ -138,7 +138,7 @@ public class EmailServices {
 
 
                     """;
-    this.sendEmail(users.getEmail(), "Welcome to Amal health Africa!", message);
+    this.sendEmail(users.getEmail(), "Welcome to Edu qa!", message);
   }
 
   @Async
@@ -149,7 +149,7 @@ public class EmailServices {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Welcome to Amal Health Africa</title>
+          <title>Welcome to Edu qa</title>
           <style>
             .body {
               background: linear-gradient(to right, #4fd1c5, #63b3ed);
@@ -223,7 +223,7 @@ public class EmailServices {
                 Amal Health <br>Africa
               </div>
             </div>
-            <h1 class="h1">Welcome to Amal Health Africa!</h1>
+            <h1 class="h1">Welcome to Edu qa!</h1>
             <p class="p">
               Dear  """
         + users.getName() +
@@ -244,11 +244,11 @@ public class EmailServices {
         + password +
         """
             </p>
-           if you have any question you can visit our website via <a href="http://www.amalhealthafrica.com">www.amalhealthafrica.com</a>
+           if you have any question you can visit our website via <a href="http://www.eduqa.com">www.eduqa.com</a>
                 </p>
                 <p class="signature p">
                   Best regards,<br />
-                  The Amal Health Africa Team
+                  The Edu qa Team
                 </p>
               </div>
             </body>
@@ -256,7 +256,7 @@ public class EmailServices {
 
 
                     """;
-    this.sendEmail(users.getEmail(), "Welcome to Amal health Africa!", message);
+    this.sendEmail(users.getEmail(), "Welcome to Edu qa!", message);
   }
 
   public void receivedFreelancingApplication(User users) throws UnsupportedEncodingException {
@@ -266,7 +266,7 @@ public class EmailServices {
         <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Application Received - Amal Health Africa</title>
+          <title>Application Received - Edu qa</title>
           <style>
             .body {
               background: linear-gradient(to right, #279186, #226696);
@@ -359,7 +359,7 @@ public class EmailServices {
         """
                 </p>
                 <p class="p">
-                  Thank you for applying for a freelancing position with Amal Health Africa. We have received your application and it is currently under review.
+                  Thank you for applying for a freelancing position with Edu qa. We have received your application and it is currently under review.
                 </p>
                 <p class="p">
                   We appreciate your interest in joining our team and will get back to you as soon as possible. If you have any questions or need further information, please don't hesitate to reach out to us at <a href="mailto:amal.healthafrica@gmail.com">amal.healthafrica@gmail.com</a>.
@@ -369,15 +369,14 @@ public class EmailServices {
                 </p>
                 <p class="signature p">
                   Best regards,<br />
-                  The Amal Health Africa Team
+                  The Edu qa Team
                 </p>
                 <div class="footer p">
-                  For more information, visit our website at <a href="http://www.amalhealthafrica.com">www.amalhealthafrica.com</a>
+                  For more information, visit our website at <a href="http://www.eduqa.com">www.eduqa.com</a>
                 </div>
               </div>
             </body>
             </html>
-
                     """;
     this.sendEmail(users.getEmail(), "Application of freelancing", message);
 

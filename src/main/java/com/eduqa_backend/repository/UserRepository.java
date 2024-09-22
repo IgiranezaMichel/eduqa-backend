@@ -22,5 +22,4 @@ public interface UserRepository extends JpaRepository<User,UUID>{
     Optional<User> findByEmail(String email);
     long countByRoleAndStatus(Role role, UserStatus status);
     Optional<User> findFirstByRoleOrderByTimeStampDesc(Role role);
-
 }
