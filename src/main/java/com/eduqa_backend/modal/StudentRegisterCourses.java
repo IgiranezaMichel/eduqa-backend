@@ -18,15 +18,16 @@ public class StudentRegisterCourses {
 private UUID id;
 @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = Registration.class)
 private Registration registration;
-@ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = Course.class)
-private Course course;
+@ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = LectureCourse.class)
+private LectureCourse lectureCourse;
 private LocalDateTime timeStamp;
-public StudentRegisterCourses(String id,Registration registration, Course course) {
+
+public StudentRegisterCourses(String id,Registration registration, LectureCourse lectureCourse) {
     if(!id.isEmpty()){
         this.id=UUID.fromString(id);
     }
     this.registration = registration;
-    this.course = course;
+    this.lectureCourse = lectureCourse;
     this.timeStamp=LocalDateTime.now();
 }
 }
