@@ -6,12 +6,15 @@ import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
 
+import com.eduqa_backend.input.LectureCourseInput;
+import java.util.*;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 @Entity
 @AllArgsConstructor
@@ -32,18 +35,15 @@ private String group;
 private Semester semester;
 
 private LocalDateTime timeStamp=LocalDateTime.now();
-public LectureCourse(UUID id, User user, Course course,Semester semester) {
-    this.id = id;
+public LectureCourse(LectureCourseInput input,User user, Course course,Semester semester) {
+   if(input.getId()!=null&&!input.getId().isEmpty())
+    this.id = UUID.fromString(input.getId());
     this.user = user;
     this.course = course;
     this.timeStamp = LocalDateTime.now();
     this.semester=semester;
+    this.group=input.getGroup();
 }
-public LectureCourse(User user, Course course,Semester semester) {
-    this.user = user;
-    this.course = course;
-    this.timeStamp = LocalDateTime.now();
-    this.semester=semester;
-}
-
+@OneToMany(mappedBy = "lectureCourse",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = StudentRegisterCourses.class)
+public List<StudentRegisterCourses> studentRegistrationCourses;
 }
