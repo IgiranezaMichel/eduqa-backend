@@ -15,12 +15,14 @@ private String semesterName;
 private String startingDate;
 private String endDate;
 private String timeStamp;
+private short semNumber;
 public SemesterDTO(Semester semester) {
     this.id = semester.getId().toString();
     this.semesterName = semester.getName();
     this.startingDate = DateConverter.LocalDateConverter(semester.getStartingDate(), "dd, MMMM yyyy");
     this.endDate =DateConverter.LocalDateConverter(semester.getEndDate(), "dd, MMMM yyyy");
-    this.timeStamp = DateConverter.LocalDateTimeConverter(semester.getTimeStamp(), "dd, MMMM yyyy MM:ss a");;
+    this.timeStamp = DateConverter.LocalDateTimeConverter(semester.getTimeStamp(), "dd, MMMM yyyy MM:ss a");
+    this.semNumber=semester.getSemNumber();
 }
 
 }
