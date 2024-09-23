@@ -9,6 +9,7 @@ import org.hibernate.annotations.UuidGenerator.Style;
 import com.eduqa_backend.dto.SemesterDTO;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
@@ -29,7 +30,8 @@ private String name;
 private LocalDate startingDate;
 private LocalDate endDate;
 private LocalDateTime timeStamp=LocalDateTime.now();
-
+@Column(columnDefinition="smallint default 1")
+private short semNumber;
 public Semester(UUID id, String semesterName, LocalDate startingDate, LocalDate endDate) {
     this.id = id;
     this.name = semesterName;
@@ -37,10 +39,11 @@ public Semester(UUID id, String semesterName, LocalDate startingDate, LocalDate 
     this.endDate = endDate;
 }
 
-public Semester(String semesterName, LocalDate startingDate, LocalDate endDate) {
+public Semester(String semesterName, LocalDate startingDate, LocalDate endDate,short  semNumber) {
     this.name = semesterName;
     this.startingDate = startingDate;
     this.endDate = endDate;
+    this.semNumber=semNumber;
 }
 
 public Semester(SemesterDTO semesterDTO) {
@@ -50,6 +53,8 @@ public Semester(SemesterDTO semesterDTO) {
     if(semesterDTO.getStartingDate() != null)throw new RuntimeException("Starting Date is required");
     this.startingDate = LocalDate.parse(semesterDTO.getStartingDate());
     this.endDate = LocalDate.parse(semesterDTO.getEndDate());
+    if(this.semNumber>=5)throw new RuntimeException("Annual cant have over 5 semester");
+    this.semNumber=semesterDTO.getSemNumber();
 }
 
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = LectureCourse.class, mappedBy = "semester")
