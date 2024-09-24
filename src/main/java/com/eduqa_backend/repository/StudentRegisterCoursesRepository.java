@@ -16,4 +16,9 @@ public interface StudentRegisterCoursesRepository extends JpaRepository<StudentR
             src.lectureCourse.id = lc.id WHERE lc.semester.id = :semesterId AND lc.user.email = :lectureEmail
             """)
     Page<User> findAllStudentJoiningLecturePrincipalCourse(PageRequest of, UUID semesterId,String lectureEmail);
+    @Query("""
+            SELECT src FROM 
+            StudentRegisterCourses src  WHERE src.registration.user.email = :studentEmail
+            """)
+    Page<StudentRegisterCourses> findAllStudentPrincipalCourse(PageRequest of,String studentEmail);
 }
