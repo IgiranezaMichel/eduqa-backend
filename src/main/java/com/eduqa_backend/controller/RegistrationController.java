@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.RegistrationDTO;
+import com.eduqa_backend.dto.SemesterDTO;
 import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.input.RegistrationInput;
@@ -12,9 +13,11 @@ import com.eduqa_backend.services.RegistrationServices;
 import com.eduqa_backend.util.PageInput;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,4 +54,11 @@ public class RegistrationController {
     public Pagination<RegistrationDTO> getRegistrationHistory(@RequestBody PageInput input,Principal principal) {
         return registrationService.getStudentRegistrationHistory(input,principal);
     }
+    @Secured("ROLE_STUDENT")
+    @GetMapping("student/semesters")
+    public List<SemesterDTO>getAllStudentSemesters(Principal principal){
+       return registrationService.getAllStudentRegisteredSemester(principal); 
+    }
+
+
 }
