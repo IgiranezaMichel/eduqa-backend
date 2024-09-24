@@ -1,8 +1,5 @@
 package com.eduqa_backend.repository;
 
-import java.util.Optional;
-import java.util.UUID;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,6 +9,7 @@ import java.util.*;
 import com.eduqa_backend.dto.DualValueChartDTO;
 import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.modal.Registration;
+import com.eduqa_backend.modal.Semester;
 import com.eduqa_backend.modal.User;
 
 @Repository
@@ -37,4 +35,6 @@ public interface RegistrationRepository extends JpaRepository<Registration, UUID
             """)
     List<DualValueChartDTO> getSemesterRegistrationCountStatus(Role role, UUID semesterId);
     Page<Registration> findAllByUserEmail(String name, PageRequest of);
+    @Query("SELECT r.semester FROM Registration r WHERE r.user=:studentEmail GROUP BY r.semester.name")
+    List<Semester> findAllStudentRegisteredSemester(String studentEmail);
 }
