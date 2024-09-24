@@ -1,0 +1,22 @@
+package com.eduqa_backend.dto;
+
+import com.eduqa_backend.modal.StudentRegisterCourses;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class StudentRegisteredCourseDTO {
+private String id;
+private UserDTO lecture;
+private CourseDTO course;
+private SemesterDTO semester;
+public StudentRegisteredCourseDTO(StudentRegisterCourses data){
+    this.id=data.getId().toString();
+    this.lecture=new UserDTO(data.getLectureCourse().getUser());
+    this.course=new CourseDTO(data.getLectureCourse().getCourse());
+    this.semester=new SemesterDTO(data.getRegistration().getSemester());
+}
+}
