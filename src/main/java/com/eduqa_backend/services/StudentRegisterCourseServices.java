@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.eduqa_backend.dto.Pagination;
+import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
 import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.input.StudentRegisterCourseInput;
 import com.eduqa_backend.modal.LectureCourse;
@@ -55,4 +56,13 @@ public class StudentRegisterCourseServices {
         return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
                 page.getContent().stream().map(UserDTO::new).collect(Collectors.toList()));
     }
+
+public Pagination<StudentRegisteredCourseDTO> findAllStudentPrincipalCourse(PageInput input, Principal principal) {
+        Page<StudentRegisterCourses> page = StudentRegisterCoursesRepository.findAllStudentPrincipalCourse(
+                PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
+                principal.getName());
+        return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
+                page.getContent().stream().map(StudentRegisteredCourseDTO::new).collect(Collectors.toList()));
+    }
+
 }
