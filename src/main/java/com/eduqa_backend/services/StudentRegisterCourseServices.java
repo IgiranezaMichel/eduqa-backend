@@ -1,6 +1,7 @@
 package com.eduqa_backend.services;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.eduqa_backend.dto.Pagination;
+import com.eduqa_backend.dto.StudentCourseListDTO;
 import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
 import com.eduqa_backend.dto.UserDTO;
 import com.eduqa_backend.input.StudentRegisterCourseInput;
@@ -57,7 +59,7 @@ public class StudentRegisterCourseServices {
                 page.getContent().stream().map(UserDTO::new).collect(Collectors.toList()));
     }
 
-public Pagination<StudentRegisteredCourseDTO> findAllStudentPrincipalCourse(PageInput input, Principal principal) {
+    public Pagination<StudentRegisteredCourseDTO> findAllStudentPrincipalCourse(PageInput input, Principal principal) {
         Page<StudentRegisterCourses> page = StudentRegisterCoursesRepository.findAllStudentPrincipalCourse(
                 PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
                 principal.getName());
@@ -65,4 +67,16 @@ public Pagination<StudentRegisteredCourseDTO> findAllStudentPrincipalCourse(Page
                 page.getContent().stream().map(StudentRegisteredCourseDTO::new).collect(Collectors.toList()));
     }
 
+    public List<StudentCourseListDTO> getStudentPrincipalCourseHistory(Principal principal) {
+        return StudentRegisterCoursesRepository.getStudentPrincipalCourseHistory(principal.getName());
+    }
+   public List<StudentCourseListDTO> getStudentPrincipalCompletedCourseHistory(Principal principal){
+    return StudentRegisterCoursesRepository.getStudentPrincipalCompletedCourseHistory(principal.getName());
+   }
+   
+   public List<StudentRegisteredCourseDTO>getAllStudentRegisteredCourseWithInAsemester(Principal principal,String semesterId){
+    return StudentRegisterCoursesRepository.
+    findAllByRegistrationUserEmailAndRegistrationSemesterId(principal.getName(),UUID.fromString(semesterId))
+    .stream().map(StudentRegisteredCourseDTO::new).toList();
+   }
 }
