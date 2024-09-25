@@ -47,7 +47,7 @@ public Semester(String semesterName, LocalDate startingDate, LocalDate endDate,s
 }
 
 public Semester(SemesterDTO semesterDTO) {
-    if(semesterDTO.getId() == null)
+    if(semesterDTO.getId() != null)
     this.id = UUID.fromString(semesterDTO.getId());
     this.name = semesterDTO.getSemesterName();
     if(semesterDTO.getStartingDate() != null)throw new RuntimeException("Starting Date is required");
