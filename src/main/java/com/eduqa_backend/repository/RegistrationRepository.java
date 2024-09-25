@@ -35,6 +35,6 @@ public interface RegistrationRepository extends JpaRepository<Registration, UUID
             """)
     List<DualValueChartDTO> getSemesterRegistrationCountStatus(Role role, UUID semesterId);
     Page<Registration> findAllByUserEmail(String name, PageRequest of);
-    @Query("SELECT r.semester FROM Registration r WHERE r.user=:studentEmail GROUP BY r.semester.name")
+    @Query("SELECT r.semester FROM Registration r WHERE r.user.email=:studentEmail GROUP BY r.semester.name,r.semester")
     List<Semester> findAllStudentRegisteredSemester(String studentEmail);
 }
