@@ -17,7 +17,7 @@ public interface DepartmentRepository extends JpaRepository<Department, UUID> {
         COALESCE(COUNT(s.id), 0) AS numberOfStudents
     FROM 
         Department d
-    LEFT JOIN 
+     JOIN 
         User s
     ON 
         d.id = s.department.id
