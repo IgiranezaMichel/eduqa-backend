@@ -1,11 +1,8 @@
 package com.eduqa_backend.modal;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
-
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
-
 import com.eduqa_backend.input.LectureCourseInput;
 import java.util.*;
 import jakarta.persistence.CascadeType;
@@ -15,6 +12,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 @Entity
 @AllArgsConstructor
@@ -44,6 +42,12 @@ public LectureCourse(LectureCourseInput input,User user, Course course,Semester 
     this.semester=semester;
     this.group=input.getGroup();
 }
+@OneToOne(cascade = CascadeType.ALL,mappedBy = "lectureCourse",optional =true,fetch = FetchType.LAZY,targetEntity =LectureCourseContent.class)
+private LectureCourseContent lectureCourseContent;
 @OneToMany(mappedBy = "lectureCourse",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = StudentRegisterCourses.class)
 public List<StudentRegisterCourses> studentRegistrationCourses;
+@OneToMany(mappedBy = "lectureCourse",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = LectureCourseSuggestion.class)
+public List<LectureCourseSuggestion>lSuggestions;
+@OneToMany(mappedBy = "lectureCourse",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = CourseReview.class)
+public List<CourseReview>courseReviews;
 }
