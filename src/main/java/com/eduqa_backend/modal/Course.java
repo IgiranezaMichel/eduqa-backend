@@ -37,8 +37,8 @@ public class Course {
         this.duration = credit * 1;
     }
 
-    public Course(UUID id, String code, String name, byte credit, LocalDateTime timeStamp) {
-        this.id = id;
+    public Course(String id, String code, String name, byte credit, LocalDateTime timeStamp) {
+        this.id = UUID.fromString(id);
         this.code = code;
         this.name = name;
         this.credit = credit;
