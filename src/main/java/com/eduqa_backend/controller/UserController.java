@@ -52,4 +52,9 @@ public List<UserDTO> getUserById(@RequestParam Role role,@RequestParam UserStatu
 public ResponseEntity<String> changeUserStatus(@PathVariable String userId,@RequestParam UserStatus status) {
     return userServices.changeUserStatus(userId,status);
 }
+@PostMapping("reset/password/{userId}")
+public ResponseEntity<String> resetUserPassword(@PathVariable String userId) throws Exception {
+  return userServices.resetUserPassword(userId);
+}
+
 }
