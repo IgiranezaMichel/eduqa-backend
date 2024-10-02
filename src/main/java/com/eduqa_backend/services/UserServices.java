@@ -51,7 +51,7 @@ public class UserServices {
     boolean userHasPassword = true;
     String generatedPassword = GeneratePassword.generatePassword();
     try {
-      if ((userInput.getRole() != Role.ROLE_ADMIN) && userInput.getRole() != Role.ROLE_HOD)
+      if ((userInput.getRole() != Role.ROLE_ADMIN))
         department = departmentRepository.findById(UUID.fromString(userInput.getDepartmentId()))
             .orElseThrow(() -> new Exception("Department not found"));
       User user2 = userRepository.findByEmail(userInput.getEmail()).orElse(null);
@@ -73,6 +73,16 @@ public class UserServices {
           var code = user.getCode().split("-")[1];
           String generatedId = IdGenerator.getNextId(code);
           userInput.setCode("LEC-" + generatedId);
+        }
+      }
+      if (userInput.getRole() == Role.ROLE_HOD) {
+        User user = userRepository.findFirstByRoleOrderByTimeStampDesc(Role.ROLE_HOD).orElse(null);
+        if (user == null) {
+          userInput.setCode("HOD-00001");
+        } else {
+          var code = user.getCode().split("-")[1];
+          String generatedId = IdGenerator.getNextId(code);
+          userInput.setCode("HOD-" + generatedId);
         }
       }
       if (userInput.getRole() == Role.ROLE_STUDENT) {
@@ -138,6 +148,19 @@ public class UserServices {
   // new UsernamePasswordAuthenticationToken(
   // input.getEmail(),
   // input.getPassword()));
+
+  public ResponseEntity<String> resetUserPassword(String userId) throws Exception {
+  try {
+     User user=userRepository.findById(UUID.fromString(userId)).orElseThrow(()->new IllegalArgumentException("Department is required"));
+    String generatedPassword=GeneratePassword.generatePassword();
+    user.setPassword(BCrypt.hashpw(generatedPassword, BCrypt.gensalt()));
+    emailServices.sendPasswordResettingNotification(user,generatedPassword);
+    return new ResponseEntity<>("User password has resetted successful",HttpStatus.OK);
+  } catch (Exception e) {
+    return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+  }
+
+}
 
   // return userRepository.findByEmail(input.getEmail())
   // .orElseThrow();
