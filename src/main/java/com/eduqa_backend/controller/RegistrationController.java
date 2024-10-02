@@ -51,14 +51,20 @@ public class RegistrationController {
     }
 
     @PostMapping("get/registration/history")
-    public Pagination<RegistrationDTO> getRegistrationHistory(@RequestBody PageInput input,Principal principal) {
-        return registrationService.getStudentRegistrationHistory(input,principal);
-    }
-    @Secured("ROLE_STUDENT")
-    @GetMapping("student/semesters")
-    public List<SemesterDTO>getAllStudentSemesters(Principal principal){
-       return registrationService.getAllStudentRegisteredSemester(principal); 
+    public Pagination<RegistrationDTO> getRegistrationHistory(@RequestBody PageInput input, Principal principal) {
+        return registrationService.getStudentRegistrationHistory(input, principal);
     }
 
+    @Secured("ROLE_STUDENT")
+    @GetMapping("student/semesters")
+    public List<SemesterDTO> getAllStudentSemesters(Principal principal) {
+        return registrationService.getAllStudentRegisteredSemester(principal);
+    }
+
+    @Secured("ROLE_STUDENT")
+    @GetMapping("student")
+    public RegistrationDTO isRegisteredInCurrentSemester(Principal principal) {
+        return registrationService.justifyStudentSemesterRegistration(principal);
+    }
 
 }
