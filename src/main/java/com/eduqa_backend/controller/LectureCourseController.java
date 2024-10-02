@@ -3,6 +3,7 @@ package com.eduqa_backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eduqa_backend.dto.CourseDTO;
+import com.eduqa_backend.dto.LectureCourseOverviewDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.LectureCourseInput;
 import com.eduqa_backend.services.LectureCourseServices;
@@ -42,5 +43,10 @@ public Pagination<CourseDTO> getLectureCourses(Principal principal,@PathVariable
 @Secured("ROLE_INSTRACTOR")
 public long getTotalLectureCourse(Principal principal) {
     return lectureCourseService.getTotalLectureCourse(principal);
+}
+@Secured("ROLE_INSTRACTOR")
+@PostMapping("detail/{semesterId}")
+public Pagination<LectureCourseOverviewDTO> getLectureCourseDetails(@RequestBody PageInput page,@PathVariable String semesterId,Principal principal){
+    return lectureCourseService.getLectureCourseDetails(page, semesterId, principal);
 }
 }
