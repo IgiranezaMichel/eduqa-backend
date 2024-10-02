@@ -43,13 +43,6 @@ public class EmailServices {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Welcome to Edu qa</title>
           <style>
-            .body {
-              background: linear-gradient(to right, #4fd1c5, #63b3ed);
-              min-height: 100vh;
-              margin: 0;
-              font-family: sans-serif;
-            }
-
             .container {
               max-width: 48rem; /* max-w-3xl */
               margin: 0 auto; /* mx-auto */
@@ -110,7 +103,7 @@ public class EmailServices {
         <body class="body">
           <div class="container">
             <div class="header">
-              <img src="https://lh3.googleusercontent.com/d/1fAdwRZg5hbP7A5TtcAGrQYU1kZkYBrh2" alt="Company Logo" />
+              <img src="https://lh3.googleusercontent" alt="Company Logo" />
               <div class="title">
                 Edu <br>Qua
               </div>
@@ -151,13 +144,6 @@ public class EmailServices {
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
           <title>Welcome to Edu qa</title>
           <style>
-            .body {
-              background: linear-gradient(to right, #4fd1c5, #63b3ed);
-              min-height: 100vh;
-              margin: 0;
-              font-family: sans-serif;
-            }
-
             .container {
               max-width: 48rem; /* max-w-3xl */
               margin: 0 auto; /* mx-auto */
@@ -218,9 +204,9 @@ public class EmailServices {
         <body class="body">
           <div class="container">
             <div class="header">
-              <img src="https://lh3.googleusercontent.com/d/1fAdwRZg5hbP7A5TtcAGrQYU1kZkYBrh2" alt="Company Logo" />
+              <img src="" alt="Company Logo" />
               <div class="title">
-                Amal Health <br>Africa
+                Edu  qa
               </div>
             </div>
             <h1 class="h1">Welcome to Edu qa!</h1>
@@ -258,7 +244,116 @@ public class EmailServices {
                     """;
     this.sendEmail(users.getEmail(), "Welcome to Edu qa!", message);
   }
+  @Async
+  public void sendPasswordResettingNotification(User users, String password) throws Exception {
+    var message = """
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Welcome to Edu qa</title>
+          <style>
+            .container {
+              max-width: 48rem; /* max-w-3xl */
+              margin: 0 auto; /* mx-auto */
+              padding: 2rem;
+              color: black;
+              font-weight: 600; /* font-semibold */
+            }
 
+            .header {
+              display: flex;
+              align-items: center;
+              margin-bottom: 1.5rem; /* mb-6 */
+              width: 100%;
+              background-color: #ffffff;
+              border-radius: 1rem; /* rounded-2xl */
+              padding: 0.25rem; /* p-1 */
+            }
+
+            .header img {
+              height: 3rem; /* h-12 */
+              width: 2.5rem; /* w-10 */
+              margin-right: 1rem; /* Adjusted for spacing */
+            }
+
+            .header .title {
+              font-weight: 700; /* font-bold */
+            }
+
+            .h1 {
+              font-size: 1.5rem; /* text-2xl */
+              font-weight: 700; /* font-bold */
+              margin-bottom: 1rem; /* mb-4 */
+              text-align: center; /* text-center */
+              color: #2d3748; /* text-gray-800 */
+            }
+
+            .p {
+              font-size: 1.125rem; /* text-lg */
+              color: #4a5568; /* text-gray-700 */
+              margin-bottom: 1rem; /* mb-4 */
+            }
+
+            a {
+              color: #3182ce; /* text-blue-500 */
+            }
+
+            a:hover {
+              color: #2b6cb0; /* text-blue-600 */
+            }
+
+            .signature {
+              font-size: 1.125rem; /* text-lg */
+              color: #4a5568; /* text-gray-700 */
+            }
+
+          </style>
+        </head>
+        <body class="body">
+          <div class="container">
+            <div class="header">
+              <img src="" alt="Company Logo" />
+              <div class="title">
+                Edu  qa
+              </div>
+            </div>
+            <h1 class="h1">Welcome to Edu qa!</h1>
+            <p class="p">
+              Dear  """
+        + users.getName() +
+        """
+                </p>
+                <p class="p">
+                  We're excited to let you know that your password has beeb reseted successful
+                </p>
+                <p class="p">
+            below are the credentials you can use to login in to your account.
+            <p> <b>Email </b>
+            """
+        + users.getEmail() +
+        """
+            </p>
+            <p> <b>Password </b>
+            """
+        + password +
+        """
+            </p>
+           if you have any question you can visit our website via <a href="http://www.eduqa.com">www.eduqa.com</a>
+                </p>
+                <p class="signature p">
+                  Best regards,<br />
+                  The Edu qa Team
+                </p>
+              </div>
+            </body>
+            </html>
+
+
+                    """;
+    this.sendEmail(users.getEmail(), "Welcome to Edu qa!", message);
+  }
   public void receivedFreelancingApplication(User users) throws UnsupportedEncodingException {
     var message = """
                 <!DOCTYPE html>
@@ -269,7 +364,6 @@ public class EmailServices {
           <title>Application Received - Edu qa</title>
           <style>
             .body {
-              background: linear-gradient(to right, #279186, #226696);
               min-height: 100vh;
               margin: 0;
               font-family: Arial, sans-serif;
