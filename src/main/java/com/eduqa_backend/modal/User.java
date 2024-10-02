@@ -57,7 +57,7 @@ public User(UserInput userDTO,Department department) {
     this.picture = ImageConverter.convertToByteArray(userDTO.getPicture());
     if(userDTO.getRole() == null||userDTO.getRole().name().isEmpty())throw new IllegalArgumentException("Role is required");
     this.role = userDTO.getRole();
-    if(userDTO.getRole()==Role.ROLE_ADMIN||userDTO.getRole()==Role.ROLE_HOD){
+    if(userDTO.getRole()==Role.ROLE_ADMIN){
         this.department=null;}
     else if(department.getId() == null){
             throw new IllegalArgumentException("Department is required");
@@ -72,6 +72,11 @@ public List<LectureCourse>lectureCourses;
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = Registration.class)
 public List<Registration>registrations;
 
+@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = LectureCourseSuggestion.class)
+public List<LectureCourseSuggestion> lectureCourseSuggestions;
+
+@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = CourseReview.class)
+private List<CourseReview>courseReviews;
 @Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
  return Collections.singletonList(new SimpleGrantedAuthority(this.role.toString()));
