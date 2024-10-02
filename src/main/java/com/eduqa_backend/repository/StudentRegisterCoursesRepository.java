@@ -6,9 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import java.util.*;
-
 import com.eduqa_backend.dto.StudentCourseListDTO;
-import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
 import com.eduqa_backend.modal.StudentRegisterCourses;
 import com.eduqa_backend.modal.User;
 
@@ -43,7 +41,7 @@ public interface StudentRegisterCoursesRepository extends JpaRepository<StudentR
                          SELECT new com.eduqa_backend.dto.StudentCourseListDTO(c.code,c.name,c.duration,c.credit,lc.user.name,lc.user.picture,lc.user.email,
                          CASE
                                 WHEN src.id IS NOT NULL THEN 'Studied'
-                                ELSE 'On track'
+                                ELSE 'Pending ...'
                                 END)
                          FROM Course c LEFT JOIN LectureCourse lc
                         on c.id=lc.course.id  JOIN StudentRegisterCourses src on src.registration.user.email=:email
