@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import com.eduqa_backend.dto.LectureCourseOverviewDTO;
 import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.modal.LectureCourse;
 import com.eduqa_backend.modal.User;
@@ -32,6 +33,18 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse, UU
     Page<LectureCourse> findAllByUserEmailAndSemesterId(PageRequest of, String name, UUID fromString);
 
     Page<LectureCourse> findAllByCourseNameIgnoreCaseAndUserEmailAndSemesterId(PageRequest of, String search,
-            String name, UUID fromString);
+            String name, UUID semesterId);
 
+    @Query("""
+            SELECT
+            new com.eduqa_backend.dto.LectureCourseOverviewDTO(lc.id,lc.course.code,lc.course.name,
+            lc.group,lc.course.credit,lc.course.duration,lcpr.currentChapter,COUNT(src.id),
+            lcpr.lectureCourseContent.totalChapter)
+            FROM LectureCourse lc LEFT JOIN      lcpr ON 
+            lc.id=lcpr.lectureCourseContent.lectureCourse.id
+            LEFT JOIN StudentRegisterCourses src ON src.lectureCourse=lc WHERE lc.semester.id=:semesterId 
+            AND lc.user.email=:lectureEmail GROUP BY lc.id,lc.course.code,lc.course.name,lc.group,
+            lc.course.credit,lc.course.duration,lcpr.currentChapter,lcpr.lectureCourseContent.totalChapter
+            """)
+    Page<LectureCourseOverviewDTO> getLectureCourseDetails(PageRequest pageRequest,UUID semesterId,String lectureEmail);
 }
