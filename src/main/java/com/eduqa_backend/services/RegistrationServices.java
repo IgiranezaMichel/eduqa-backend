@@ -71,5 +71,10 @@ public List<SemesterDTO> getAllStudentRegisteredSemester(Principal principal) {
     List<Semester>sem= registrationRepository.findAllStudentRegisteredSemester(principal.getName());
 return sem.stream().map(SemesterDTO::new).toList();
 }
+
+public RegistrationDTO justifyStudentSemesterRegistration(Principal principal) {
+   Semester semester=semesterRepository.findFirstByOrderByEndDateDesc().orElseThrow(()->new RuntimeException("Semester not found"));
+  return registrationRepository.findByUserEmailAndSemester(principal.getName(),semester).map(registrationMapper).orElseThrow(()->new RuntimeException("Registration not found"));
+}
 }
 
