@@ -18,6 +18,8 @@ import com.eduqa_backend.repository.CourseRepository;
 import com.eduqa_backend.repository.SemesterCourseRepository;
 import com.eduqa_backend.repository.SemesterRepository;
 import com.eduqa_backend.util.PageInput;
+
+import java.util.List;
 import java.util.UUID;
 @Service
 public class SemesterCourseServices {
@@ -45,4 +47,8 @@ public Pagination<SemesterCourseDTO> getAllSemesterRegisteredPage(PageInput inpu
    Page<SemesterCourse>page = semesterCourseRepository.findAll(PageRequest.of(input.getPageNumber(), input.getPageSize(),Sort.by(input.getSortBy())));
    return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(semesterCourseMapper).toList());
  }
+
+public List<SemesterCourseDTO> getAllSemesterCourses() {
+   return
+}
 }
