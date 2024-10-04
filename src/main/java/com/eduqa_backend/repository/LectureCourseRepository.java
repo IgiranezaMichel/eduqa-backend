@@ -40,7 +40,7 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse, UU
             new com.eduqa_backend.dto.LectureCourseOverviewDTO(lc.id,lc.course.code,lc.course.name,
             lc.group,lc.course.credit,lc.course.duration,lcpr.currentChapter,COUNT(src.id),
             lcpr.lectureCourseContent.totalChapter)
-            FROM LectureCourse lc LEFT JOIN      lcpr ON 
+            FROM LectureCourse lc LEFT JOIN   LectureCourseProgressReport   lcpr ON 
             lc.id=lcpr.lectureCourseContent.lectureCourse.id
             LEFT JOIN StudentRegisterCourses src ON src.lectureCourse=lc WHERE lc.semester.id=:semesterId 
             AND lc.user.email=:lectureEmail GROUP BY lc.id,lc.course.code,lc.course.name,lc.group,

@@ -3,7 +3,6 @@ package com.eduqa_backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.StudentCourseListDTO;
 import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.*;
 import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
