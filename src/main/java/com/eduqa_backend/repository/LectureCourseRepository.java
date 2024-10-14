@@ -47,4 +47,13 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse, UU
             lc.course.credit,lc.course.duration,lcpr.currentChapter,lcpr.lectureCourseContent.totalChapter
             """)
     Page<LectureCourseOverviewDTO> getLectureCourseDetails(PageRequest pageRequest,UUID semesterId,String lectureEmail);
+    @Query("""
+                   SELECT lc FROM LectureCourse lc WHERE  lc.semester.id=:semesterId GROUP BY lc
+                    """)
+    List<LectureCourse> findAllLectureCoursesAvailableInASemester(UUID semesterId);
+    @Query("""
+        SELECT lc FROM LectureCourse lc WHERE  lc.semester.id=:semesterId and lc.course.id=:courseId GROUP BY lc.group,lc
+         """)
+List<LectureCourse> findAllLectureGroupCoursesAvailableInASemester(UUID semesterId,UUID courseId);
+
 }
