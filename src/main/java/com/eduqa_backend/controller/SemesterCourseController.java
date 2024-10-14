@@ -23,10 +23,10 @@ public class SemesterCourseController {
     public ResponseEntity<String> registerSemesterCourse(@RequestBody SemesterCourseInput registrationInput) {
         return semesterCourseService.registerSemesterCourse(registrationInput);
     }
-@GetMapping()
-public List<SemesterCourseDTO>getAllSemesterCourse(){
-    return semesterCourseService.getAllSemesterCourses();
-}
+// @GetMapping()
+// public List<SemesterCourseDTO>getAllSemesterCourse(){
+//     return semesterCourseService.getAllSemesterCourses();
+// }
 
     @PostMapping("get/all/registration-history")
     public Pagination<SemesterCourseDTO> getAllSemesterRegisteredPage(@RequestBody PageInput input) {
