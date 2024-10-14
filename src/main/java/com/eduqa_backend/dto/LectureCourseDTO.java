@@ -1,13 +1,8 @@
 package com.eduqa_backend.dto;
-
-import com.eduqa_backend.modal.Course;
-import com.eduqa_backend.modal.Semester;
-import com.eduqa_backend.modal.User;
+import com.eduqa_backend.modal.LectureCourse;
 import com.eduqa_backend.util.DateConverter;
-
 import lombok.Getter;
 import lombok.Setter;
-
 public class LectureCourseDTO extends UserDTO{
 @Getter @Setter
 private CourseDTO course;
@@ -17,12 +12,15 @@ private String semesterName;
 private String semesterStartingDate;
 @Getter @Setter
 private String semesterEndingDate;
-public LectureCourseDTO(User user, Course course,Semester semester) {
-    super(user);
-    this.course = new CourseDTO(course);
-    this.semesterName = semester.getName();
-    this.semesterEndingDate =DateConverter.LocalDateConverter(semester.getEndDate(), "yyy,MMM,dd");
-    this.semesterStartingDate =DateConverter.LocalDateConverter(semester.getStartingDate(), "yyy,MMM,dd");
+@Getter @Setter
+private String group;
+public LectureCourseDTO(LectureCourse lc) {
+    super(lc.getUser());
+    this.course = new CourseDTO(lc.getCourse());
+    this.semesterName = lc.getSemester().getName();
+    this.semesterEndingDate =DateConverter.LocalDateConverter(lc.getSemester().getEndDate(), "yyy,MMM,dd");
+    this.semesterStartingDate =DateConverter.LocalDateConverter(lc.getSemester().getStartingDate(), "yyy,MMM,dd");
+    this.group=lc.getGroup();
 }
 
 }
