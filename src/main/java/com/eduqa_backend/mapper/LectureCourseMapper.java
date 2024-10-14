@@ -6,7 +6,7 @@ import com.eduqa_backend.modal.LectureCourse;
 public class LectureCourseMapper implements Function<LectureCourse,LectureCourseDTO>{
     @Override
     public LectureCourseDTO apply(LectureCourse t) {
-        return new LectureCourseDTO(t.getUser(), t.getCourse(),t.getSemester());
+        return new LectureCourseDTO(t);
     }
 
 }
