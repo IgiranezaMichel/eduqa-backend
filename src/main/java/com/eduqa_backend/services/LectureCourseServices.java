@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import com.eduqa_backend.dto.CourseDTO;
+import com.eduqa_backend.dto.LectureCourseDTO;
 import com.eduqa_backend.dto.LectureCourseOverviewDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.LectureCourseInput;
@@ -96,8 +97,21 @@ public class LectureCourseServices {
   public Pagination<LectureCourseOverviewDTO> getLectureCourseDetails(PageInput input, String semesterId,
       Principal principal) {
     Page<LectureCourseOverviewDTO> page = lectureCourseRepository.getLectureCourseDetails(
-        PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),UUID.fromString(semesterId),principal.getName());
+        PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
+        UUID.fromString(semesterId), principal.getName());
     return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(), page.getContent());
 
+  }
+
+  public List<LectureCourseDTO> getListOfAvailableCourseInASemester(String semesterId) {
+    List<LectureCourse> list = lectureCourseRepository
+        .findAllLectureCoursesAvailableInASemester(UUID.fromString(semesterId));
+    return list.stream().map(LectureCourseDTO::new).toList();
+  }
+
+  public List<LectureCourseDTO> getAllActiveCourseGroups(String semesterId, String courseId) {
+    List<LectureCourse> list = lectureCourseRepository
+        .findAllLectureGroupCoursesAvailableInASemester(UUID.fromString(semesterId), UUID.fromString(courseId));
+    return list.stream().map(LectureCourseDTO::new).toList();
   }
 }
