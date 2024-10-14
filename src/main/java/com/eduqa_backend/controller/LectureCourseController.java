@@ -3,6 +3,7 @@ package com.eduqa_backend.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.eduqa_backend.dto.CourseDTO;
+import com.eduqa_backend.dto.LectureCourseDTO;
 import com.eduqa_backend.dto.LectureCourseOverviewDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.LectureCourseInput;
@@ -18,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/lecture-course")
@@ -49,4 +52,13 @@ public long getTotalLectureCourse(Principal principal) {
 public Pagination<LectureCourseOverviewDTO> getLectureCourseDetails(@RequestBody PageInput page,@PathVariable String semesterId,Principal principal){
     return lectureCourseService.getLectureCourseDetails(page, semesterId, principal);
 }
+@GetMapping("semester/{semesterId}")
+public List<LectureCourseDTO>getListOfCourseAvailableInASemester(@PathVariable String semesterId){
+    return lectureCourseService.getListOfAvailableCourseInASemester(semesterId);
+}
+@GetMapping("find/groups/{courseId}")
+public List<LectureCourseDTO> getAllGroups(@RequestParam String semesterId,@PathVariable String courseId) {
+    return lectureCourseService.getAllActiveCourseGroups(semesterId,courseId);
+}
+
 }
