@@ -48,7 +48,7 @@ public Pagination<SemesterCourseDTO> getAllSemesterRegisteredPage(PageInput inpu
    return new Pagination<>(page.getNumber(),page.getTotalPages(),page.getTotalElements(),page.getContent().stream().map(semesterCourseMapper).toList());
  }
 
-public List<SemesterCourseDTO> getAllSemesterCourses() {
-   return
-}
+// public List<SemesterCourseDTO> getAllSemesterCourses() {
+//    return semesterCourseRepository.findAll()
+// }
 }
