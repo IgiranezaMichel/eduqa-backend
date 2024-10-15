@@ -1,5 +1,6 @@
 package com.eduqa_backend.modal;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.UuidGenerator;
@@ -25,4 +26,11 @@ public class LectureCourseProgressReport {
     private int currentChapter;
     @ManyToOne(cascade = CascadeType.REMOVE, targetEntity = LectureCourseContent.class, optional = false, fetch = FetchType.LAZY)
     private LectureCourseContent lectureCourseContent;
+    private LocalDateTime timeStamp;
+
+    public LectureCourseProgressReport(int currentChapter, LectureCourseContent lectureCourseContent) {
+        this.currentChapter = currentChapter;
+        this.lectureCourseContent = lectureCourseContent;
+        this.timeStamp = LocalDateTime.now();
+    }
 }
