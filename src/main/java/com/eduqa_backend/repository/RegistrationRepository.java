@@ -42,4 +42,5 @@ public interface RegistrationRepository extends JpaRepository<Registration, UUID
     List<Semester> findAllStudentRegisteredSemester(String studentEmail);
 
     Optional<Registration> findByUserEmailAndSemester(String name, Semester semester);
+    Optional<Registration> findByUserEmailAndSemesterId(String name, UUID semesterId);
 }

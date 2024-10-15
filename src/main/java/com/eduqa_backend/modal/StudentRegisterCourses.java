@@ -22,10 +22,7 @@ private Registration registration;
 private LectureCourse lectureCourse;
 private LocalDateTime timeStamp;
 
-public StudentRegisterCourses(String id,Registration registration, LectureCourse lectureCourse) {
-    if(!id.isEmpty()){
-        this.id=UUID.fromString(id);
-    }
+public StudentRegisterCourses(Registration registration, LectureCourse lectureCourse) {
     this.registration = registration;
     this.lectureCourse = lectureCourse;
     this.timeStamp=LocalDateTime.now();

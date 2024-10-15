@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.security.*;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +26,9 @@ public class StudentRegisterCoursesController {
     @Autowired
     private StudentRegisterCourseServices services;
 
-    @PostMapping("register")
-    public ResponseEntity<String> registerStudentInSemestter(@RequestBody StudentRegisterCourseInput entity) {
-        return services.createCourseRegistration(entity);
+    @GetMapping("register/{semesterId}")
+    public ResponseEntity<String> registerStudentInSemestter(@RequestParam String lectureCourseId,@PathVariable String semesterId, Principal principal) {
+        return services.createCourseRegistration(lectureCourseId,semesterId,principal);
     }
 
     @PostMapping("get/student/{semesterId}")
