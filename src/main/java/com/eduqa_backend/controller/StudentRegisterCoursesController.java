@@ -7,7 +7,6 @@ import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.StudentCourseListDTO;
 import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
 import com.eduqa_backend.dto.UserDTO;
-import com.eduqa_backend.input.StudentRegisterCourseInput;
 import com.eduqa_backend.services.StudentRegisterCourseServices;
 import com.eduqa_backend.util.PageInput;
 import org.springframework.web.bind.annotation.PathVariable;

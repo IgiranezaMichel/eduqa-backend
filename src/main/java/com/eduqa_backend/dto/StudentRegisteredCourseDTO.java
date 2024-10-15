@@ -10,11 +10,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class StudentRegisteredCourseDTO {
 private String id;
+private String lectureCourseId;
 private UserDTO lecture;
 private CourseDTO course;
 private SemesterDTO semester;
 public StudentRegisteredCourseDTO(StudentRegisterCourses data){
     this.id=data.getId().toString();
+    this.lectureCourseId=data.getLectureCourse().getId().toString();
     this.lecture=new UserDTO(data.getLectureCourse().getUser());
     this.course=new CourseDTO(data.getLectureCourse().getCourse());
     this.semester=new SemesterDTO(data.getRegistration().getSemester());
