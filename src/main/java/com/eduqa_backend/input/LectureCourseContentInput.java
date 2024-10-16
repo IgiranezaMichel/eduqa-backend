@@ -11,5 +11,5 @@ public class LectureCourseContentInput {
 private String id;
 private String description;
 private int totalChapter;
-private String lectureCourseId;
+private String lectureCourseContentId;
 }

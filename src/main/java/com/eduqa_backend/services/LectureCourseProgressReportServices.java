@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.eduqa_backend.input.LectureCourseContentInput;
+import com.eduqa_backend.input.LectureCourseProgressReportInput;
 import com.eduqa_backend.modal.LectureCourseContent;
 import com.eduqa_backend.modal.LectureCourseProgressReport;
 import com.eduqa_backend.repository.LectureCourseContentRepository;
@@ -17,16 +19,16 @@ public class LectureCourseProgressReportServices {
 @Autowired private LectureCourseProgressReportRepository lectureCourseProgressReportRepository;
 @Autowired private LectureCourseContentRepository lectureCourseContentRepository;
 
-public ResponseEntity<String> createCourseProgressReport(int currentChapter, String lectureCourseContent) {
+public ResponseEntity<String> createCourseProgressReport(LectureCourseProgressReportInput lcci) {
 try {
-    LectureCourseContent lcc=lectureCourseContentRepository.findById(UUID.fromString(lectureCourseContent)).orElseThrow(()-> new RuntimeException("Lecture Course Content not found"));
-    lectureCourseProgressReportRepository.save(new LectureCourseProgressReport(currentChapter, lcc));
+    LectureCourseContent lcc=lectureCourseContentRepository.findById(UUID.fromString(lcci.getLectureCourseContentId())).orElseThrow(()-> new RuntimeException("Lecture Course Content not found"));
+    lectureCourseProgressReportRepository.save(new LectureCourseProgressReport(lcci, lcc));
      return ResponseEntity.ok("Course progress report created successfully");
 } catch (Exception e) {
 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error creating course progress report");
 }
 }
-public int getCurrentChapter(){
+public double getCurrentChapter(){
     return lectureCourseProgressReportRepository.findFirstByOrderByTimeStampDesc().get().getCurrentChapter();
 }
 }

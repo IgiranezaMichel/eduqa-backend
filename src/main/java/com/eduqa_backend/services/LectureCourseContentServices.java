@@ -19,7 +19,7 @@ public class LectureCourseContentServices {
 
 public ResponseEntity<String> create(LectureCourseContentInput entity) {
    try {
-     LectureCourse lc=lRepository.findById(UUID.fromString(entity.getLectureCourseId())).orElseThrow(()->new RuntimeException("Course not found"));
+     LectureCourse lc=lRepository.findById(UUID.fromString(entity.getLectureCourseContentId())).orElseThrow(()->new RuntimeException("Course not found"));
      lectureCourseContentRepository.save(new LectureCourseContent(entity, lc));
 return new ResponseEntity<>("Course content saved successful",HttpStatus.CREATED);
    } catch (Exception e) {
