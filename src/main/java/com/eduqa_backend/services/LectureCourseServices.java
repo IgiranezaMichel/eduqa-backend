@@ -114,4 +114,13 @@ public class LectureCourseServices {
         .findAllLectureGroupCoursesAvailableInASemester(UUID.fromString(semesterId), UUID.fromString(courseId));
     return list.stream().map(LectureCourseDTO::new).toList();
   }
+
+  public List<LectureCourseDTO> getListOfCourseAvailableWithInASemester(String semesterId) {
+    List<LectureCourse> list =lectureCourseRepository.findAllBySemesterId(UUID.fromString(semesterId));
+    return list.stream().map(LectureCourseDTO::new).toList();
+  }
+  public List<LectureCourseDTO> getListOfLectureAvailableWithInASemester(String semesterId) {
+    List<LectureCourse> list =lectureCourseRepository.findAllLectureBySemesterId(UUID.fromString(semesterId));
+    return list.stream().map(LectureCourseDTO::new).toList();
+  }
 }

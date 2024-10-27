@@ -5,20 +5,17 @@ import java.util.UUID;
 
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
-
-import com.eduqa_backend.enums.ContentType;
 import com.eduqa_backend.input.LectureCourseProgressReportInput;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.util.*;
 
 @Entity
 @Data
@@ -32,17 +29,16 @@ public class LectureCourseProgressReport {
     @ManyToOne(cascade = CascadeType.REMOVE, targetEntity = LectureCourseContent.class, optional = false, fetch = FetchType.LAZY)
     private LectureCourseContent lectureCourseContent;
     private String title;
-    @Enumerated(EnumType.STRING)
-    private ContentType type;
     private LocalDateTime timeStamp;
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "lectureCourseProgressReport")
+    private List<com.eduqa_backend.modal.LectureCourseProgressComment> LectureCourseProgressComment;
 
     public LectureCourseProgressReport(LectureCourseProgressReportInput in, LectureCourseContent lectureCourseContent) {
-        if (in.getId() != null)
+        if (!in.getId().equals(""))
             this.id = UUID.fromString(in.getId());
         this.currentChapter = in.getCurrentChapter();
         this.lectureCourseContent = lectureCourseContent;
         this.title = in.getTitle();
-        this.type = in.getType();
         this.timeStamp = LocalDateTime.now();
     }
 }

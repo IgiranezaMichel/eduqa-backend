@@ -17,7 +17,7 @@ import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.time.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -31,6 +31,7 @@ public class LectureCourseContent {
     private int totalChapter;
     @OneToOne(cascade = CascadeType.ALL, targetEntity = LectureCourse.class, optional = false)
     private LectureCourse lectureCourse;
+    private LocalDateTime timeStamp;
 
     @OneToMany(mappedBy = "lectureCourseContent", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, targetEntity = LectureCourseProgressReport.class)
     private List<LectureCourseProgressReport> lectureCourseProgressReports;
@@ -41,5 +42,6 @@ public class LectureCourseContent {
         this.description = input.getDescription();
         this.totalChapter = input.getTotalChapter();
         this.lectureCourse = lc;
+        this.timeStamp=LocalDateTime.now();
     }
 }

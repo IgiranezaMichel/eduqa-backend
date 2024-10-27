@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import com.eduqa_backend.dto.CourseDTO;
 import com.eduqa_backend.dto.DepartmentDTO;
 import com.eduqa_backend.enums.Role;
 import com.eduqa_backend.modal.Department;
@@ -28,5 +30,10 @@ public List<DepartmentDTO> getAllDepartment() {
 }
 public List<Object[]> findAllUserWithInDepartment(Role role){
    return departmentRepository.findAllUserWithInDepartment(role);
+}
+
+public List<CourseDTO> findAllCoursesAvailableForASemester(String semesterId) {
+    // TODO Auto-generated method stub
+    throw new UnsupportedOperationException("Unimplemented method 'findAllCoursesAvailableForASemester'");
 }
 }

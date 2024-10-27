@@ -77,6 +77,8 @@ public List<LectureCourseSuggestion> lectureCourseSuggestions;
 
 @OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = CourseReview.class)
 private List<CourseReview>courseReviews;
+@OneToMany(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,mappedBy = "user",targetEntity = LectureCourseProgressComment.class)
+private List<LectureCourseProgressComment>lComments;
 @Override
 public Collection<? extends GrantedAuthority> getAuthorities() {
  return Collections.singletonList(new SimpleGrantedAuthority(this.role.toString()));
