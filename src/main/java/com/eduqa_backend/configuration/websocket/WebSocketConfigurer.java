@@ -17,7 +17,6 @@ import org.springframework.web.filter.CorsFilter;
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfigurer implements WebSocketMessageBrokerConfigurer{
-    @SuppressWarnings("null")
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/topic","/user");
@@ -25,7 +24,6 @@ public class WebSocketConfigurer implements WebSocketMessageBrokerConfigurer{
         config.setUserDestinationPrefix("/user");
     }
 
-    @SuppressWarnings("null")
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws")
@@ -44,7 +42,7 @@ public class WebSocketConfigurer implements WebSocketMessageBrokerConfigurer{
         return new CorsFilter(source);
     }
       @Override
-    public boolean configureMessageConverters(@SuppressWarnings("null") List<MessageConverter> messageConverters) {
+    public boolean configureMessageConverters(List<MessageConverter> messageConverters) {
         DefaultContentTypeResolver resolver = new DefaultContentTypeResolver();
         resolver.setDefaultMimeType(MimeTypeUtils.APPLICATION_JSON);
         MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();

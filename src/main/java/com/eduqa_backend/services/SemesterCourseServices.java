@@ -18,8 +18,6 @@ import com.eduqa_backend.repository.CourseRepository;
 import com.eduqa_backend.repository.SemesterCourseRepository;
 import com.eduqa_backend.repository.SemesterRepository;
 import com.eduqa_backend.util.PageInput;
-
-import java.util.List;
 import java.util.UUID;
 @Service
 public class SemesterCourseServices {

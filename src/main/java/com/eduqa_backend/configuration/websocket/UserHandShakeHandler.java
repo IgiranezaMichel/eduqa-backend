@@ -11,8 +11,6 @@ import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserHandShakeHandler extends DefaultHandshakeHandler{
-
-    @SuppressWarnings("null")
     @Override
     @Nullable
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler,

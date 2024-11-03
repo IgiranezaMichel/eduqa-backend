@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.eduqa_backend.dto.LectureCourseOverviewDTO;
 import com.eduqa_backend.modal.Course;
 import com.eduqa_backend.modal.LectureCourse;
-import com.eduqa_backend.modal.LectureCourseProgressReport;
 import com.eduqa_backend.modal.User;
 
 @Repository

@@ -33,7 +33,6 @@ public List<Object[]> findAllUserWithInDepartment(Role role){
 }
 
 public List<CourseDTO> findAllCoursesAvailableForASemester(String semesterId) {
-    // TODO Auto-generated method stub
     throw new UnsupportedOperationException("Unimplemented method 'findAllCoursesAvailableForASemester'");
 }
 }
