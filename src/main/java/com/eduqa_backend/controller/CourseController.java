@@ -39,4 +39,5 @@ public long getTotalCourse() {
 public Pagination<CourseDTO> getAvailabelCourseWithInASemesterPage(@RequestBody PageInput pageInput,@PathVariable String semesterId) {
     return courseServices.findAvailableCourseWithInASemester(pageInput,semesterId);
 }
+
 }
