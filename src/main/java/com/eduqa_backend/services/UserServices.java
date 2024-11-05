@@ -150,17 +150,23 @@ public class UserServices {
   // input.getPassword()));
 
   public ResponseEntity<String> resetUserPassword(String userId) throws Exception {
-  try {
-     User user=userRepository.findById(UUID.fromString(userId)).orElseThrow(()->new IllegalArgumentException("Department is required"));
-    String generatedPassword=GeneratePassword.generatePassword();
-    user.setPassword(BCrypt.hashpw(generatedPassword, BCrypt.gensalt()));
-    emailServices.sendPasswordResettingNotification(user,generatedPassword);
-    return new ResponseEntity<>("User password has resetted successful",HttpStatus.OK);
-  } catch (Exception e) {
-    return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+    try {
+      User user = userRepository.findById(UUID.fromString(userId))
+          .orElseThrow(() -> new IllegalArgumentException("Department is required"));
+      String generatedPassword = GeneratePassword.generatePassword();
+      user.setPassword(BCrypt.hashpw(generatedPassword, BCrypt.gensalt()));
+      emailServices.sendPasswordResettingNotification(user, generatedPassword);
+      return new ResponseEntity<>("User password has resetted successful", HttpStatus.OK);
+    } catch (Exception e) {
+      return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
   }
 
-}
+  public List<UserDTO> getAllUser(Role role, UserStatus status) {
+    return userRepository.findAllByRoleAndStatus(role, status).stream().map(userMapper).toList();
+
+  }
 
   // return userRepository.findByEmail(input.getEmail())
   // .orElseThrow();
