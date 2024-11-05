@@ -40,6 +40,10 @@ public ResponseEntity<String> updateUserInformation(@RequestBody UserInput userI
 public Pagination<UserDTO> getAllUserPage(@RequestBody PageInput userInput,@RequestParam Role role,@RequestParam UserStatus status) {
     return userServices.getAllUserPage(userInput,role,status);
 }
+@GetMapping("get/all/users")
+public List<UserDTO> getAllUser(@RequestParam Role role,@RequestParam UserStatus status) {
+    return userServices.getAllUser(role,status);
+}
 @GetMapping("get/total/by-role")
 public long countUserByRole(@RequestParam Role role,@RequestParam UserStatus status) {
     return userServices.getTotalUserByRole(role,status);
