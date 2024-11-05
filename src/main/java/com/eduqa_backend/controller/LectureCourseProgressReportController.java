@@ -30,5 +30,9 @@ public double getCurrentChapter(@RequestParam String lectureCourseId) {
 public List<LectureCourseProgressReportDTO>getAllCourseContent(@PathVariable String lectureCourseId){
 return lectureCourseProgressReportServices.getAllCourseContent(lectureCourseId);
 }
+@GetMapping("course-progress/{semesterId}")
+public List<LectureCourseProgressReportDTO> findAllLatestLectureProgressReport(@PathVariable String semesterId) {
+    return lectureCourseProgressReportServices.findAllLatestLectureProgressReport(semesterId);
+}
 
 }
