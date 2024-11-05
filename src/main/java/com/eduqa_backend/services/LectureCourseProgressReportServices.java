@@ -27,14 +27,13 @@ public class LectureCourseProgressReportServices {
             LectureCourseContent lcc = lectureCourseContentRepository
                     .findById(UUID.fromString(lcci.getLectureCourseContentId()))
                     .orElseThrow(() -> new RuntimeException("Lecture Course Content not found"));
-                    LectureCourseProgressReport lcpr = lectureCourseProgressReportRepository
-                    .findFirstByLectureCourseContentOrderByTimeStampDesc(lcc);            
+            LectureCourseProgressReport lcpr = lectureCourseProgressReportRepository
+                    .findFirstByLectureCourseContentOrderByTimeStampDesc(lcc);
             if (lcpr != null) {
-                if ((int) lcpr.getCurrentChapter() < lcpr.getLectureCourseContent().getTotalChapter()) {     
-                    lcci.setCurrentChapter(lcpr.getCurrentChapter()+1);
-                }
-                else{
-                    return new ResponseEntity<>("Course content has exceed it number",HttpStatus.BAD_REQUEST);
+                if ((int) lcpr.getCurrentChapter() < lcpr.getLectureCourseContent().getTotalChapter()) {
+                    lcci.setCurrentChapter(lcpr.getCurrentChapter() + 1);
+                } else {
+                    return new ResponseEntity<>("Course content has exceed it number", HttpStatus.BAD_REQUEST);
                 }
             }
             lectureCourseProgressReportRepository.save(new LectureCourseProgressReport(lcci, lcc));
@@ -53,6 +52,13 @@ public class LectureCourseProgressReportServices {
     public List<LectureCourseProgressReportDTO> getAllCourseContent(String lectureCourseId) {
         return lectureCourseProgressReportRepository
                 .findAllByLectureCourseContentLectureCourseId(UUID.fromString(lectureCourseId)).stream()
+                .map(LectureCourseProgressReportDTO::new)
+                .toList();
+    }
+
+    public List<LectureCourseProgressReportDTO> findAllLatestLectureProgressReport(String semesterId) {
+        return lectureCourseProgressReportRepository
+                .findAllLatestLectureProgressReport(UUID.fromString(semesterId)).stream()
                 .map(LectureCourseProgressReportDTO::new)
                 .toList();
     }
