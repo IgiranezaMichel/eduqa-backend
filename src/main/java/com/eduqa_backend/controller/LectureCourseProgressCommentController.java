@@ -35,5 +35,9 @@ public class LectureCourseProgressCommentController {
             @PathVariable String lectureCourseProgressId) {
         return lectureCourseProgressCommentServices.getChapterComments(principal, lectureCourseProgressId);
     }
+@GetMapping("latest-comment/{semesterId}")
+public List<LectureCourseProgressCommentDTO> findLatestMessageForEachCourseContentReport(@PathVariable String semesterId) {
+    return lectureCourseProgressCommentServices.findLatestMessageForEachCourseContentReport(semesterId);
+}
 
 }
