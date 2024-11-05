@@ -44,4 +44,7 @@ public class LectureCourseProgressCommentServices {
                 .map(LectureCourseProgressCommentDTO::new).toList();
 
     }
+    public List<LectureCourseProgressCommentDTO> findLatestMessageForEachCourseContentReport(String semesterId){
+        return lectureCourseProgressCommentRepository.findLatestMessageForEachCourseContentReport(UUID.fromString(semesterId)).stream().map(LectureCourseProgressCommentDTO::new).toList();
+    }
 }
