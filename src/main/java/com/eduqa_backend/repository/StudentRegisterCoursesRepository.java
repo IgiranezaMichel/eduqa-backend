@@ -30,8 +30,10 @@ public interface StudentRegisterCoursesRepository extends JpaRepository<StudentR
        @Query("""
                       SELECT new com.eduqa_backend.dto.StudentCourseListDTO(c.code,c.name,c.duration,c.credit,lc.user.name,lc.user.picture,lc.user.email,
                       CASE
-                             WHEN src.id IS NOT NULL THEN 'Studied'
-                             ELSE 'On track'
+                           WHEN src.status='PENDING' THEN 'Studying ...'
+                             WHEN src.status='COMPLETE' THEN 'Complete ...' 
+                             WHEN src.status='REPEAT' THEN 'Repeat ...' 
+                             ELSE 'Pending ...'
                              END)
                       FROM Course c LEFT JOIN LectureCourse lc
                      on c.id=lc.course.id LEFT JOIN StudentRegisterCourses src on src.registration.user.email=:email
@@ -42,11 +44,14 @@ public interface StudentRegisterCoursesRepository extends JpaRepository<StudentR
        @Query("""
                       SELECT new com.eduqa_backend.dto.StudentCourseListDTO(c.code,c.name,c.duration,c.credit,lc.user.name,lc.user.picture,lc.user.email,
                       CASE
-                             WHEN src.id IS NOT NULL THEN 'Studied'
+                             WHEN src.status='PENDING' THEN 'Studying ...'
+                             WHEN src.status='COMPLETE' THEN 'Complete ...' 
+                             WHEN src.status='REPEAT' THEN 'Repeat ...' 
                              ELSE 'Pending ...'
                              END)
                       FROM Course c LEFT JOIN LectureCourse lc
                      on c.id=lc.course.id  JOIN StudentRegisterCourses src on src.registration.user.email=:email
+                     WHERE src.status='COMPLETE'
                      GROUP BY c.code,c.name,c.duration,c.credit,lc.user.name,lc.user.picture,lc.user.email,src.id
                              """)
        List<StudentCourseListDTO> getStudentPrincipalCompletedCourseHistory(String email);

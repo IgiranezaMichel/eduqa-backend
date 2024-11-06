@@ -37,6 +37,10 @@ public ResponseEntity<String> registerLectureCourses(@RequestBody LectureCourseI
 public List<CourseDTO> getListOfLectureCourses(@PathVariable String id) {
     return lectureCourseService.getListOfLectureCourses(id);
 }
+@GetMapping("lecture-course/{lectureCourseId}")
+public LectureCourseDTO findById(@PathVariable String lectureCourseId) {
+    return lectureCourseService.findLectureCourseId(lectureCourseId);
+}
 
 @PostMapping("all/courses/{semesterId}")
 @Secured("ROLE_INSTRACTOR")

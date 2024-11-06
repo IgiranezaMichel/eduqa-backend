@@ -123,4 +123,8 @@ public class LectureCourseServices {
     List<LectureCourse> list =lectureCourseRepository.findAllLectureBySemesterId(UUID.fromString(semesterId));
     return list.stream().map(LectureCourseDTO::new).toList();
   }
+
+public LectureCourseDTO findLectureCourseId(String lectureCourseId) {
+  return lectureCourseRepository.findById(UUID.fromString(lectureCourseId)).stream().map(LectureCourseDTO::new).findFirst().orElse(null);
+}
 }

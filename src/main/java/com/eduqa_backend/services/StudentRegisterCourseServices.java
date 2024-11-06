@@ -17,6 +17,7 @@ import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.StudentCourseListDTO;
 import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
 import com.eduqa_backend.dto.UserDTO;
+import com.eduqa_backend.enums.StudentCourseStatus;
 import com.eduqa_backend.modal.LectureCourse;
 import com.eduqa_backend.modal.Registration;
 import com.eduqa_backend.modal.StudentRegisterCourses;
@@ -33,7 +34,7 @@ public class StudentRegisterCourseServices {
     private RegistrationRepository registrationRepository;
     @Autowired
     private LectureCourseRepository rCourseRepository;
-    public ResponseEntity<String> createCourseRegistration(String lectureCourseId,String semesterId, Principal principal) {
+    public ResponseEntity<String> createCourseRegistration(StudentCourseStatus status,String lectureCourseId,String semesterId, Principal principal) {
         try {
             Registration registration = registrationRepository.findByUserEmailAndSemesterId(principal.getName(),UUID.fromString(semesterId))
                     .orElseThrow(() -> new RuntimeException("Invalid registration number"));
@@ -42,7 +43,7 @@ public class StudentRegisterCourseServices {
             if (studentRegisterCoursesRepository.findByRegistrationAndLectureCourse(registration, course).isPresent()) {
                 return new ResponseEntity<>("Course already registered", HttpStatus.BAD_REQUEST);
             }
-            studentRegisterCoursesRepository.save(new StudentRegisterCourses(registration, course));
+            studentRegisterCoursesRepository.save(new StudentRegisterCourses(status,registration, course));
             return new ResponseEntity<>("Course saved successfull", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);

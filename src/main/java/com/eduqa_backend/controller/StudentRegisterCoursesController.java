@@ -7,6 +7,7 @@ import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.dto.StudentCourseListDTO;
 import com.eduqa_backend.dto.StudentRegisteredCourseDTO;
 import com.eduqa_backend.dto.UserDTO;
+import com.eduqa_backend.enums.StudentCourseStatus;
 import com.eduqa_backend.services.StudentRegisterCourseServices;
 import com.eduqa_backend.util.PageInput;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,8 +27,8 @@ public class StudentRegisterCoursesController {
     private StudentRegisterCourseServices services;
 
     @GetMapping("register/{semesterId}")
-    public ResponseEntity<String> registerStudentInSemestter(@RequestParam String lectureCourseId,@PathVariable String semesterId, Principal principal) {
-        return services.createCourseRegistration(lectureCourseId,semesterId,principal);
+    public ResponseEntity<String> registerStudentInSemestter(@RequestParam StudentCourseStatus status,@RequestParam String lectureCourseId,@PathVariable String semesterId, Principal principal) {
+        return services.createCourseRegistration(status,lectureCourseId,semesterId,principal);
     }
 
     @PostMapping("get/student/{semesterId}")

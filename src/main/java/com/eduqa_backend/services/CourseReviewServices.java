@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.eduqa_backend.dto.CourseReviewDTO;
+import com.eduqa_backend.dto.LectureCourseDTO;
+import com.eduqa_backend.dto.ReviewLectureDTO;
 import com.eduqa_backend.dto.StudentReviewDTO;
 import com.eduqa_backend.input.CourseReviewInput;
 import com.eduqa_backend.modal.CourseReview;
@@ -20,20 +23,40 @@ import com.eduqa_backend.repository.UserRepository;
 
 @Service
 public class CourseReviewServices {
-@Autowired private CourseReviewRepository courseReviewRepository;
-@Autowired private LectureCourseRepository lectureCourseRepository;
-@Autowired private UserRepository userRepository;
-public ResponseEntity<String> create(CourseReviewInput input,Principal principal) {
-   try {
-    LectureCourse lectureCourse=lectureCourseRepository.findById(UUID.fromString(input.getLectureCourseId())).orElseThrow(()->new RuntimeException("Course not found"));
-    User user=userRepository.findByEmail(principal.getName()).orElseThrow(()->new RuntimeException("User not found"));
-    courseReviewRepository.save(new CourseReview(input, lectureCourse, user));
-    return new ResponseEntity<>("Course review added successful",HttpStatus.CREATED);
-   } catch (Exception e) {
-    return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+   @Autowired
+   private CourseReviewRepository courseReviewRepository;
+   @Autowired
+   private LectureCourseRepository lectureCourseRepository;
+   @Autowired
+   private UserRepository userRepository;
+
+   public ResponseEntity<String> create(CourseReviewInput input, Principal principal) {
+      try {
+         LectureCourse lectureCourse = lectureCourseRepository.findById(UUID.fromString(input.getLectureCourseId()))
+               .orElseThrow(() -> new RuntimeException("Course not found"));
+         User user = userRepository.findByEmail(principal.getName())
+               .orElseThrow(() -> new RuntimeException("User not found"));
+         courseReviewRepository.save(new CourseReview(input, lectureCourse, user));
+         return new ResponseEntity<>("Course review added successful", HttpStatus.CREATED);
+      } catch (Exception e) {
+         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+      }
    }
+
+   public List<StudentReviewDTO> getStudentCourseReview(Principal principal) {
+      return courseReviewRepository.findAllStudentCourseReviews(principal.getName());
+   }
+
+   public List<ReviewLectureDTO> listOfPrincipleRectureReview() {
+      return courseReviewRepository.listOfPrincipleRectureReview().stream()
+            .map(ReviewLectureDTO::new).toList();
+   }
+   public LectureCourseDTO findLectureCourseId(String lectureCourseId) {
+  return lectureCourseRepository.findById(UUID.fromString(lectureCourseId)).stream().map(LectureCourseDTO::new).findFirst().orElse(null);
 }
-public List<StudentReviewDTO> getStudentCourseReview(Principal principal) {
-return courseReviewRepository.findAllStudentCourseReviews(principal.getName());     
-}
+
+   public CourseReviewDTO getAllStudentReview(String lectureCourseId, Principal principal) {
+     return courseReviewRepository.findByUserEmailAndLectureCourseId(principal.getName(),UUID.fromString(lectureCourseId))
+     .stream().map(CourseReviewDTO::new).findFirst().orElse(null);
+   }
 }

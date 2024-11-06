@@ -24,9 +24,9 @@ public class CourseReview {
     private LectureCourse lectureCourse;
     @ManyToOne(cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity =User.class,optional = true )
     private User user;
-    private int marks;
+    private double marks;
     public CourseReview(CourseReviewInput input,LectureCourse lectureCourse,User user){
-        if(input.getId().isEmpty())
+        if(!input.getId().isEmpty())
         this.id=UUID.fromString(input.getId());
         this.user=user;
         this.lectureCourse=lectureCourse;
