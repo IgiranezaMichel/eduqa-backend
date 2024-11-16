@@ -81,4 +81,8 @@ public class StudentRegisterCourseServices {
     findAllByRegistrationUserEmailAndRegistrationSemesterId(principal.getName(),UUID.fromString(semesterId))
     .stream().map(StudentRegisteredCourseDTO::new).toList();
    }
+
+public double getTotalStudentToughtByLecture(Principal principal, String semesterId) {
+return studentRegisterCoursesRepository.countByLectureCourseSemesterIdAndLectureCourseUserEmail(UUID.fromString(semesterId),principal.getName());
+}
 }
