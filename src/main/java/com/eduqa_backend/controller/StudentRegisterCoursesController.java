@@ -53,4 +53,9 @@ public class StudentRegisterCoursesController {
            @PathVariable String semesterId) {
         return services.getAllStudentRegisteredCourseWithInAsemester(principal, semesterId);
     }
+    @GetMapping("total-student/join-lecture/{semesterId}")
+    public double getTotalStudentToughtByLecture(Principal principal,@PathVariable String semesterId) {
+        return services.getTotalStudentToughtByLecture(principal,semesterId);
+    }
+    
 }
