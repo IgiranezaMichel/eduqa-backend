@@ -54,7 +54,9 @@ public class CourseReviewServices {
    public LectureCourseDTO findLectureCourseId(String lectureCourseId) {
   return lectureCourseRepository.findById(UUID.fromString(lectureCourseId)).stream().map(LectureCourseDTO::new).findFirst().orElse(null);
 }
-
+public long countLectureReviews(Principal principal){
+  return courseReviewRepository.countByLectureReview(principal.getName());
+}
    public CourseReviewDTO getAllStudentReview(String lectureCourseId, Principal principal) {
      return courseReviewRepository.findByUserEmailAndLectureCourseId(principal.getName(),UUID.fromString(lectureCourseId))
      .stream().map(CourseReviewDTO::new).findFirst().orElse(null);

@@ -57,5 +57,9 @@ public class StudentRegisterCoursesController {
     public double getTotalStudentToughtByLecture(Principal principal,@PathVariable String semesterId) {
         return services.getTotalStudentToughtByLecture(principal,semesterId);
     }
+    @GetMapping("updateStudentStatus/{id}")
+    public ResponseEntity<String> updateStudentStatus(@RequestParam StudentCourseStatus status,@PathVariable String id) {
+        return services.updateStudentStatus(id,status);
+    }
     
 }

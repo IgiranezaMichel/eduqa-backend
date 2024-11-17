@@ -37,7 +37,7 @@ public interface StudentRegisterCoursesRepository extends JpaRepository<StudentR
                              END)
                       FROM Course c LEFT JOIN LectureCourse lc
                      on c.id=lc.course.id LEFT JOIN StudentRegisterCourses src on src.registration.user.email=:email
-                     GROUP BY c.code,c.name,c.duration,c.credit,lc.user.name,lc.user.picture,lc.user.email,src.id
+                     GROUP BY c.code,c.name,c.duration,c.credit,lc.user.name,lc.user.picture,lc.user.email,src.id 
                              """)
        List<StudentCourseListDTO> getStudentPrincipalCourseHistory(String email);
 

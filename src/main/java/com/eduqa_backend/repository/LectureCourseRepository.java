@@ -59,7 +59,7 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse, UU
                 LectureCourse lc
             LEFT JOIN
                 LectureCourseProgressReport lcpr ON lc.id = lcpr.lectureCourseContent.lectureCourse.id
-            RIGHT JOIN
+            LEFT JOIN
                 StudentRegisterCourses src ON src.lectureCourse = lc
             WHERE
                 lc.semester.id = :semesterId

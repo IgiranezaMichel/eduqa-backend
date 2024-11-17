@@ -99,6 +99,7 @@ public class LectureCourseServices {
     Page<LectureCourseOverviewDTO> page = lectureCourseRepository.getLectureCourseDetails(
           PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
         UUID.fromString(semesterId), principal.getName());
+        
     return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(), page.getContent());
 
   }

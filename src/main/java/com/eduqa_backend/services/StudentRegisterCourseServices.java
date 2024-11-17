@@ -34,16 +34,19 @@ public class StudentRegisterCourseServices {
     private RegistrationRepository registrationRepository;
     @Autowired
     private LectureCourseRepository rCourseRepository;
-    public ResponseEntity<String> createCourseRegistration(StudentCourseStatus status,String lectureCourseId,String semesterId, Principal principal) {
+
+    public ResponseEntity<String> createCourseRegistration(StudentCourseStatus status, String lectureCourseId,
+            String semesterId, Principal principal) {
         try {
-            Registration registration = registrationRepository.findByUserEmailAndSemesterId(principal.getName(),UUID.fromString(semesterId))
+            Registration registration = registrationRepository
+                    .findByUserEmailAndSemesterId(principal.getName(), UUID.fromString(semesterId))
                     .orElseThrow(() -> new RuntimeException("Invalid registration number"));
             LectureCourse course = rCourseRepository.findById(UUID.fromString(lectureCourseId))
                     .orElseThrow(() -> new RuntimeException("Invalid Course Code"));
             if (studentRegisterCoursesRepository.findByRegistrationAndLectureCourse(registration, course).isPresent()) {
                 return new ResponseEntity<>("Course already registered", HttpStatus.BAD_REQUEST);
             }
-            studentRegisterCoursesRepository.save(new StudentRegisterCourses(status,registration, course));
+            studentRegisterCoursesRepository.save(new StudentRegisterCourses(status, registration, course));
             return new ResponseEntity<>("Course saved successfull", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -72,17 +75,28 @@ public class StudentRegisterCourseServices {
     public List<StudentCourseListDTO> getStudentPrincipalCourseHistory(Principal principal) {
         return studentRegisterCoursesRepository.getStudentPrincipalCourseHistory(principal.getName());
     }
-   public List<StudentCourseListDTO> getStudentPrincipalCompletedCourseHistory(Principal principal){
-    return studentRegisterCoursesRepository.getStudentPrincipalCompletedCourseHistory(principal.getName());
-   }
-   
-   public List<StudentRegisteredCourseDTO>getAllStudentRegisteredCourseWithInAsemester(Principal principal,String semesterId){
-    return studentRegisterCoursesRepository.
-    findAllByRegistrationUserEmailAndRegistrationSemesterId(principal.getName(),UUID.fromString(semesterId))
-    .stream().map(StudentRegisteredCourseDTO::new).toList();
-   }
 
-public double getTotalStudentToughtByLecture(Principal principal, String semesterId) {
-return studentRegisterCoursesRepository.countByLectureCourseSemesterIdAndLectureCourseUserEmail(UUID.fromString(semesterId),principal.getName());
-}
+    public List<StudentCourseListDTO> getStudentPrincipalCompletedCourseHistory(Principal principal) {
+        return studentRegisterCoursesRepository.getStudentPrincipalCompletedCourseHistory(principal.getName());
+    }
+
+    public List<StudentRegisteredCourseDTO> getAllStudentRegisteredCourseWithInAsemester(Principal principal,
+            String semesterId) {
+        return studentRegisterCoursesRepository
+                .findAllByRegistrationUserEmailAndRegistrationSemesterId(principal.getName(),
+                        UUID.fromString(semesterId))
+                .stream().map(StudentRegisteredCourseDTO::new).toList();
+    }
+
+    public double getTotalStudentToughtByLecture(Principal principal, String semesterId) {
+        return studentRegisterCoursesRepository.countByLectureCourseSemesterIdAndLectureCourseUserEmail(
+                UUID.fromString(semesterId), principal.getName());
+    }
+
+    public ResponseEntity<String> updateStudentStatus(String id, StudentCourseStatus status) {
+        StudentRegisterCourses src = studentRegisterCoursesRepository.findById(UUID.fromString(id)).orElse(null);
+        src.setStatus(status);
+        studentRegisterCoursesRepository.save(src);
+        return ResponseEntity.ok().body("Status has changes successful");
+    }
 }

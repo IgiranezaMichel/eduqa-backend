@@ -27,8 +27,8 @@ public class LectureCourseProgressCommentDTO {
         this.userEmail=lcpr.getUser().getEmail();
         this.userPhoto =ImageConverter.convertToBase64(lcpr.getUser().getPicture());
         this.comment = lcpr.getMessage();
-        this.courseName=lcpr.getLectureCourseProgressReport().getLectureCourseContent().getLectureCourse().getCourse().getName();
-        this.lectureName=lcpr.getLectureCourseProgressReport().getLectureCourseContent().getLectureCourse().getUser().getName();
+        // this.courseName=lcpr.getLectureCourseProgressReport().getLectureCourseContent().getLectureCourse().getCourse().getName();
+        // this.lectureName=lcpr.getLectureCourseProgressReport().getLectureCourseContent().getLectureCourse().getUser().getName();
         this.lectureCourseContentId=lcpr.getLectureCourseProgressReport().getId().toString();
         this.timeStamp = DateConverter.LocalDateTimeConverter(lcpr.getTimeStamp(), "dd, MMMM-yyyy a");
     }

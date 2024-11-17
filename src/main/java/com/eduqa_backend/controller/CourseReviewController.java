@@ -29,7 +29,11 @@ public class CourseReviewController {
     public ResponseEntity<String> createCourseReview(@RequestBody() CourseReviewInput input, Principal principal) {
         return courseReviewServices.create(input, principal);
     }
-
+    @GetMapping("lecture/reviews")
+    @Secured("ROLE_INSTRACTOR")
+    public long countLectureReviews(Principal principal){
+        return courseReviewServices.countLectureReviews(principal);
+    }
     @GetMapping("student/review")
     @Secured("ROLE_STUDENT")
     public List<StudentReviewDTO> getStudentCourseReview(Principal principal) {

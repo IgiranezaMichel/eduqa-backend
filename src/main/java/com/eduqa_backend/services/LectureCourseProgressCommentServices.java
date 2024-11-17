@@ -1,4 +1,5 @@
 package com.eduqa_backend.services;
+
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import com.eduqa_backend.repository.LectureCourseProgressCommentRepository;
 import com.eduqa_backend.repository.LectureCourseProgressReportRepository;
 import com.eduqa_backend.repository.UserRepository;
 import java.util.*;
+
 @Service
 public class LectureCourseProgressCommentServices {
     @Autowired
@@ -27,24 +29,31 @@ public class LectureCourseProgressCommentServices {
                     .orElseThrow(() -> new RuntimeException("Please select chapter"));
             User user = userRepository.findByEmail(principal.getName())
                     .orElseThrow(() -> new RuntimeException("User not found"));
-            LectureCourseProgressComment saveComment = lectureCourseProgressCommentRepository.save(new LectureCourseProgressComment(comment.getComment(), user, lcpr));
-            System.out.println("Identification "+saveComment.getId());
-            return new LectureCourseProgressCommentDTO(this.findById(saveComment.getId()));
+            LectureCourseProgressComment saveComment = lectureCourseProgressCommentRepository
+                    .save(new LectureCourseProgressComment(comment.getComment(), user, lcpr));
+            return new LectureCourseProgressCommentDTO(saveComment);
         } catch (Exception e) {
             return new LectureCourseProgressCommentDTO();
         }
     }
 
-    public LectureCourseProgressComment findById(UUID id){
-      return lectureCourseProgressCommentRepository.findById(id).orElseThrow(()->new RuntimeException("Comment not found"));
+    public LectureCourseProgressComment findById(UUID id) {
+        return lectureCourseProgressCommentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Comment not found"));
 
     }
-    public List<LectureCourseProgressCommentDTO> getChapterComments(Principal principal, String lectureCourseProgressId) {
-        return lectureCourseProgressCommentRepository.findAllByLectureCourseProgressReportId(UUID.fromString(lectureCourseProgressId)).stream()
+
+    public List<LectureCourseProgressCommentDTO> getChapterComments(Principal principal,
+            String lectureCourseProgressId) {
+        return lectureCourseProgressCommentRepository
+                .findAllByLectureCourseProgressReportId(UUID.fromString(lectureCourseProgressId)).stream()
                 .map(LectureCourseProgressCommentDTO::new).toList();
 
     }
-    public List<LectureCourseProgressCommentDTO> findLatestMessageForEachCourseContentReport(String semesterId){
-        return lectureCourseProgressCommentRepository.findLatestMessageForEachCourseContentReport(UUID.fromString(semesterId)).stream().map(LectureCourseProgressCommentDTO::new).toList();
+
+    public List<LectureCourseProgressCommentDTO> findLatestMessageForEachCourseContentReport(String semesterId) {
+        return lectureCourseProgressCommentRepository
+                .findLatestMessageForEachCourseContentReport(UUID.fromString(semesterId)).stream()
+                .map(LectureCourseProgressCommentDTO::new).toList();
     }
 }

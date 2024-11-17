@@ -27,6 +27,6 @@ public interface LectureCourseProgressReportRepository extends JpaRepository<Lec
         ORDER BY lcpr.currentChapter DESC
     """)
     List<LectureCourseProgressReport> findAllLatestLectureProgressReport(UUID semesterId);
-    
+
 
 }
