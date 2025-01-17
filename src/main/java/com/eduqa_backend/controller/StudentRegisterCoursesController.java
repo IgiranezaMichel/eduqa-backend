@@ -30,7 +30,7 @@ public class StudentRegisterCoursesController {
     public ResponseEntity<String> registerStudentInSemestter(@RequestParam StudentCourseStatus status,@RequestParam String lectureCourseId,@PathVariable String semesterId, Principal principal) {
         return services.createCourseRegistration(status,lectureCourseId,semesterId,principal);
     }
-    @PostMapping("get/student/{semesterId}")
+    @PostMapping("get/student-list/{semesterId}")
     public Pagination<StudentRegisteredCourseDTO> getStudentJoiningLecturePrincipleCourse(@RequestBody PageInput input,
             @PathVariable String semesterId,
             Principal principal) {

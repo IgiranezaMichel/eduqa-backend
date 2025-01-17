@@ -1,5 +1,6 @@
 package com.eduqa_backend.modal;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.UuidGenerator;
@@ -25,9 +26,13 @@ private UUID id;
 @ManyToOne(cascade = CascadeType.ALL,targetEntity = StudentRegisterCourses.class)
 private StudentRegisterCourses studentCourse;
 private boolean isPresent;
+private LocalDateTime date;
+private LocalDateTime timeStamp;
 public Attendance(AttendanceInput attendanceInput,StudentRegisterCourses studentCourse) {
     if(!attendanceInput.getId().equals(""))this.id=UUID.fromString(attendanceInput.getId());
     this.studentCourse = studentCourse;
     this.isPresent = attendanceInput.isPresent();
+    this.date=attendanceInput.getDate();
+    this.timeStamp = LocalDateTime.now();
 }
 }

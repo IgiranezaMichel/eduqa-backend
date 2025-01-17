@@ -103,7 +103,7 @@ public class StudentRegisterCourseServices {
     public Pagination<StudentRegisteredCourseDTO> getStudentJoiningLecturePrincipleCourse(PageInput input, String semesterId,
             Principal principal) {
         Page<StudentRegisterCourses> page = studentRegisterCoursesRepository.findAllByRegistrationSemesterIdAndLectureCourseUserEmail(
-            PageRequest.of(input.getPageNumber(),input.getPageSize(),Sort.by(Sort.Direction.DESC,"createdDate")),
+            PageRequest.of(input.getPageNumber(),input.getPageSize(),Sort.by(Sort.Direction.DESC,input.getSortBy())),
             UUID.fromString(semesterId), principal.getName()
         );
         return new   Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
