@@ -99,4 +99,14 @@ public class StudentRegisterCourseServices {
         studentRegisterCoursesRepository.save(src);
         return ResponseEntity.ok().body("Status has changes successful");
     }
+
+    public Pagination<StudentRegisteredCourseDTO> getStudentJoiningLecturePrincipleCourse(PageInput input, String semesterId,
+            Principal principal) {
+        Page<StudentRegisterCourses> page = studentRegisterCoursesRepository.findAllByRegistrationSemesterIdAndLectureCourseUserEmail(
+            PageRequest.of(input.getPageNumber(),input.getPageSize(),Sort.by(Sort.Direction.DESC,"createdDate")),
+            UUID.fromString(semesterId), principal.getName()
+        );
+        return new   Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
+        page.getContent().parallelStream().map(StudentRegisteredCourseDTO::new).collect(Collectors.toList()));
+}
 }

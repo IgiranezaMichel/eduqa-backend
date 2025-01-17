@@ -63,4 +63,7 @@ public interface StudentRegisterCoursesRepository extends JpaRepository<StudentR
 
     double countByLectureCourseSemesterIdAndLectureCourseUserEmail(UUID fromString, String name);
 
+    Page<StudentRegisterCourses> findAllByRegistrationSemesterIdAndLectureCourseUserEmail(PageRequest of,
+            UUID fromString, String name);
+
 }

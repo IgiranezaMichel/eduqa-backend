@@ -1,6 +1,7 @@
 package com.eduqa_backend.modal;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
@@ -15,6 +16,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.*;
 
 @Data
@@ -29,14 +31,17 @@ public class StudentRegisterCourses {
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, targetEntity = LectureCourse.class)
     private LectureCourse lectureCourse;
     private LocalDateTime timeStamp;
-    @Column(name = "status", nullable = false, columnDefinition = "VARCHAR(20) DEFAULT 'PENDING'")
+    @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private StudentCourseStatus status;
-
     public StudentRegisterCourses(StudentCourseStatus status, Registration registration, LectureCourse lectureCourse) {
         this.registration = registration;
         this.lectureCourse = lectureCourse;
         this.timeStamp = LocalDateTime.now();
         this.status = status;
     }
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = Attendance.class)
+    private List<Attendance> attendanceList ;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = Deliberation.class)
+    private List<Deliberation> deliberations ;
 }
