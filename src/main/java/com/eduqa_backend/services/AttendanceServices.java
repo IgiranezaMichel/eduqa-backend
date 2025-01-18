@@ -42,9 +42,11 @@ public class AttendanceServices {
     }
 
     public Pagination<AttendanceDTO> getAllAttendance(PageInput input) {
+        Attendance attendance=attendanceRepository.findFirstByOrderByDateDesc().orElse(null);
             Page<Attendance> page = attendanceRepository.findListOfAttendedStudent(
                     PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
-                    input.getSearch());
+                    attendance.getDate()
+                   );
             return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
                     page.getContent().parallelStream().map(
                             AttendanceDTO::new).toList());
