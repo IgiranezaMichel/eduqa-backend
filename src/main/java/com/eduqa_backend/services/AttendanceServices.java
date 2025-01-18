@@ -1,5 +1,6 @@
 package com.eduqa_backend.services;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +43,16 @@ public class AttendanceServices {
     }
 
     public Pagination<AttendanceDTO> getAllAttendance(PageInput input) {
-        Attendance attendance=attendanceRepository.findFirstByOrderByDateDesc().orElse(null);
-            Page<Attendance> page = attendanceRepository.findListOfAttendedStudent(
-                    PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
-                    attendance.getDate()
-                   );
-            return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
-                    page.getContent().parallelStream().map(
-                            AttendanceDTO::new).toList());
+        LocalDateTime date = LocalDateTime.now();
+        Attendance attendance = attendanceRepository.findFirstByOrderByDateDesc().orElse(null);
+        if (attendance != null)
+            date = attendance.getDate();
+        Page<Attendance> page = attendanceRepository.findListOfAttendedStudent(
+                PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
+                date);
+        return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
+                page.getContent().parallelStream().map(
+                        AttendanceDTO::new).toList());
 
     }
 }
