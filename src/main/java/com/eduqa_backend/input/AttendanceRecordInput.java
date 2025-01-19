@@ -8,5 +8,6 @@ import lombok.NoArgsConstructor;
 public class AttendanceRecordInput {
 private String id;
 private String studentCourseId;
-private boolean isPresent;
+private String attendanceId;
+private boolean present;
 }

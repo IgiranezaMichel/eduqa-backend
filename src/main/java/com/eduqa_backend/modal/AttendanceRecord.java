@@ -24,14 +24,18 @@ public class AttendanceRecord {
     private UUID id;
     @ManyToOne(cascade = CascadeType.ALL, targetEntity = StudentRegisterCourses.class)
     private StudentRegisterCourses studentCourse;
+    @ManyToOne(cascade = CascadeType.ALL, targetEntity = Attendance.class)
+    private Attendance attendance;
     private boolean isPresent;
     private LocalDateTime timeStamp;
 
-    public AttendanceRecord(AttendanceRecordInput aInput, StudentRegisterCourses studentCourse) {
-        if (!aInput.getId().equals(""))
+    public AttendanceRecord(AttendanceRecordInput aInput, StudentRegisterCourses studentCourse,Attendance attendance) {
+        if (aInput.getId()!=null)
             this.id = UUID.fromString(aInput.getId());
         this.studentCourse = studentCourse;
+        this.attendance=attendance;
         this.isPresent = aInput.isPresent();
         this.timeStamp = LocalDateTime.now();
     }
+
 }

@@ -105,7 +105,6 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse, UU
             ORDER BY lc.user_id, lc.id
             """, nativeQuery = true)
     List<LectureCourse> findAllLectureBySemesterId(@Param("semesterId") UUID semesterId);
-
     List<LectureCourse> findAllByUserEmail(String name);
 
 }
