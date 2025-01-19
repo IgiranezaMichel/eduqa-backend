@@ -50,4 +50,6 @@ public List<StudentRegisterCourses> studentRegistrationCourses;
 public List<LectureCourseSuggestion>lSuggestions;
 @OneToMany(mappedBy = "lectureCourse",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = CourseReview.class)
 public List<CourseReview>courseReviews;
+@OneToMany(mappedBy = "lectureCourse",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY,targetEntity = Attendance.class)
+public List<Attendance>attendanceList;
 }

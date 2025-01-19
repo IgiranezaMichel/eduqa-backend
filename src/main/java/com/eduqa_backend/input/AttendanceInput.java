@@ -1,7 +1,6 @@
 package com.eduqa_backend.input;
 
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AttendanceInput {
 private String id;
-private String studentRegisteredId;
-private boolean isPresent;
+private String lectureCourseId;
 private LocalDateTime date;
+private LocalDateTime timeStamp;
+
 }

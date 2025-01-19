@@ -41,7 +41,7 @@ public class StudentRegisterCourses {
         this.status = status;
     }
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = Attendance.class)
-    private List<Attendance> attendanceList ;
+    private List<AttendanceRecord> attendanceList ;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = Deliberation.class)
     private List<Deliberation> deliberations ;
 }

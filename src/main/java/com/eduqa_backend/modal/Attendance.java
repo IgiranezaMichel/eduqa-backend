@@ -23,15 +23,13 @@ public class Attendance {
 @Id
 @UuidGenerator(style = Style.AUTO)
 private UUID id;
-@ManyToOne(cascade = CascadeType.ALL,targetEntity = StudentRegisterCourses.class)
-private StudentRegisterCourses studentCourse;
-private boolean isPresent;
+@ManyToOne(cascade = CascadeType.ALL)
+private LectureCourse lectureCourse;
 private LocalDateTime date;
 private LocalDateTime timeStamp;
-public Attendance(AttendanceInput attendanceInput,StudentRegisterCourses studentCourse) {
+public Attendance(AttendanceInput attendanceInput,LectureCourse lectureCourse) {
     if(!attendanceInput.getId().equals(""))this.id=UUID.fromString(attendanceInput.getId());
-    this.studentCourse = studentCourse;
-    this.isPresent = attendanceInput.isPresent();
+    this.lectureCourse = lectureCourse;
     this.date=attendanceInput.getDate();
     this.timeStamp = LocalDateTime.now();
 }
