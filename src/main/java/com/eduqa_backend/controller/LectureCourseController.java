@@ -37,6 +37,11 @@ public ResponseEntity<String> registerLectureCourses(@RequestBody LectureCourseI
 public List<CourseDTO> getListOfLectureCourses(@PathVariable String id) {
     return lectureCourseService.getListOfLectureCourses(id);
 }
+@GetMapping("all")
+@PreAuthorize("hasRole('ROLE_INSTRACTOR')")
+public List<LectureCourseDTO> getListOfLectureCourses(Principal principal) {
+    return lectureCourseService.getListOfLecturePrincipleCourses(principal);
+}
 @GetMapping("lecture-course/{lectureCourseId}")
 public LectureCourseDTO findById(@PathVariable String lectureCourseId) {
     return lectureCourseService.findLectureCourseId(lectureCourseId);

@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.annotations.UuidGenerator.Style;
-
 import com.eduqa_backend.enums.StudentCourseStatus;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,7 +38,7 @@ public class StudentRegisterCourses {
         this.timeStamp = LocalDateTime.now();
         this.status = status;
     }
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = Attendance.class)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = AttendanceRecord.class)
     private List<AttendanceRecord> attendanceList ;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "studentCourse",targetEntity = Deliberation.class)
     private List<Deliberation> deliberations ;

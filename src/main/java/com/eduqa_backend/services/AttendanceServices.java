@@ -1,5 +1,6 @@
 package com.eduqa_backend.services;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -53,5 +54,14 @@ public class AttendanceServices {
                 page.getContent().parallelStream().map(
                         AttendanceDTO::new).toList());
 
+    }
+
+    public Pagination<AttendanceDTO> getAttendanceList(PageInput input, Principal principal) {
+        Page<Attendance> page = attendanceRepository.findAllByLectureCourseUserEmailOrderByDateDesc(
+                PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy())),
+                principal.getName());
+        return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
+                page.getContent().parallelStream().map(
+                        AttendanceDTO::new).toList());
     }
 }

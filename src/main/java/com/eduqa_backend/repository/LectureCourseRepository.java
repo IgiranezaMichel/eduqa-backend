@@ -5,9 +5,11 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Repository;
 import com.eduqa_backend.dto.LectureCourseOverviewDTO;
 import com.eduqa_backend.modal.Course;
@@ -103,5 +105,7 @@ public interface LectureCourseRepository extends JpaRepository<LectureCourse, UU
             ORDER BY lc.user_id, lc.id
             """, nativeQuery = true)
     List<LectureCourse> findAllLectureBySemesterId(@Param("semesterId") UUID semesterId);
+
+    List<LectureCourse> findAllByUserEmail(String name);
 
 }

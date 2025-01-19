@@ -18,5 +18,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, UUID>{
             """)
     Page<Attendance> findListOfAttendedStudent(PageRequest of, LocalDateTime date);
     Optional<Attendance> findFirstByOrderByDateDesc();
+    Page<Attendance> findAllByLectureCourseUserEmailOrderByDateDesc(PageRequest of, String name);
 
 }

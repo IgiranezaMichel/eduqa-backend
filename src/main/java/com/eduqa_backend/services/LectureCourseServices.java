@@ -93,7 +93,9 @@ public class LectureCourseServices {
   public List<CourseDTO> getListOfLectureCourses(String id) {
     return lectureCourseRepository.findAllByUserId(UUID.fromString(id)).stream().map(coursesMapper).toList();
   }
-
+  public List<LectureCourseDTO> getListOfLecturePrincipleCourses(Principal principal) {
+    return lectureCourseRepository.findAllByUserEmail(principal.getName()).stream().map(LectureCourseDTO::new).toList();
+  }
   public Pagination<LectureCourseOverviewDTO> getLectureCourseDetails(PageInput input, String semesterId,
       Principal principal) {
     Page<LectureCourseOverviewDTO> page = lectureCourseRepository.getLectureCourseDetails(
