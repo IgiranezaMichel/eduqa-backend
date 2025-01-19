@@ -6,10 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.eduqa_backend.dto.AttendanceRecordDTO;
+import com.eduqa_backend.dto.AttendanceRecordHistoryDTO;
 import com.eduqa_backend.modal.AttendanceRecord;
 @Repository
 public interface AttendanceRecordRepository extends JpaRepository<AttendanceRecord, UUID> {
@@ -26,14 +26,15 @@ public interface AttendanceRecordRepository extends JpaRepository<AttendanceReco
 Page<AttendanceRecordDTO> getAttendanceList(Pageable pageable,UUID attendanceId,UUID lectureCourseId);
 
 @Query("""
-    SELECT new com.eduqa_backend.dto.AttendanceRecordDTO(
+    SELECT new com.eduqa_backend.dto.AttendanceRecordHistoryDTO(
             attr.id, 
             attr.isPresent, 
             attr.timeStamp,
             src.id,
-            src.registration.user
+            src.registration.user,
+            attr.attendance.date
         ) FROM StudentRegisterCourses src  left join AttendanceRecord attr ON src.id=
     attr.studentCourse.id AND attr.attendance.id=:attendanceId WHERE src.lectureCourse.id=:lectureCourseId
         """)
-Page<AttendanceRecordDTO> getAttendanceHistory(Pageable pageable,UUID attendanceId,UUID lectureCourseId);   
+Page<AttendanceRecordHistoryDTO> getAttendanceHistory(Pageable pageable,UUID attendanceId,UUID lectureCourseId);   
 }
