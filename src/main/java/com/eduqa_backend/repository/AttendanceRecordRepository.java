@@ -33,7 +33,7 @@ Page<AttendanceRecordDTO> getAttendanceList(Pageable pageable,UUID attendanceId,
             src.id,
             src.registration.user,
             attr.attendance.date
-        ) FROM StudentRegisterCourses src  left join AttendanceRecord attr ON src.id=
+        ) FROM StudentRegisterCourses src  right join AttendanceRecord attr ON src.id=
     attr.studentCourse.id AND attr.attendance.id=:attendanceId WHERE src.lectureCourse.id=:lectureCourseId
         """)
 Page<AttendanceRecordHistoryDTO> getAttendanceHistory(Pageable pageable,UUID attendanceId,UUID lectureCourseId);   

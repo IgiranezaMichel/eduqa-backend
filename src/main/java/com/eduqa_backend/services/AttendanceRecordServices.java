@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.eduqa_backend.dto.AttendanceRecordDTO;
+import com.eduqa_backend.dto.AttendanceRecordHistoryDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.AttendanceRecordInput;
 import com.eduqa_backend.modal.Attendance;
@@ -52,5 +53,17 @@ public Pagination<AttendanceRecordDTO> getAttendanceRecordList(PageInput input,S
    } catch (RuntimeException e) {
     throw new RuntimeException(e.getMessage());
    }
+}
+
+public Pagination<AttendanceRecordHistoryDTO> getAttendanceRecordHistoryList(PageInput input, String attendanceId,
+      String lectureCourseId) {
+         try {
+            Pageable pageable = PageRequest.of(input.getPageNumber(), input.getPageSize(), Sort.by(input.getSortBy()));
+            Page<AttendanceRecordHistoryDTO> page = attendanceRecordRepository.getAttendanceHistory(pageable, UUID.fromString(attendanceId),UUID.fromString(lectureCourseId));
+            return new Pagination<>(page.getNumber(), page.getTotalPages(), page.getTotalElements(),
+             page.getContent());
+           } catch (RuntimeException e) {
+            throw new RuntimeException(e.getMessage());
+           }
 }
 }

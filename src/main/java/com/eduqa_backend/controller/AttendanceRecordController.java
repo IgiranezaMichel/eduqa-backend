@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.eduqa_backend.dto.AttendanceRecordDTO;
+import com.eduqa_backend.dto.AttendanceRecordHistoryDTO;
 import com.eduqa_backend.dto.Pagination;
 import com.eduqa_backend.input.AttendanceRecordInput;
 import com.eduqa_backend.services.AttendanceRecordServices;
@@ -26,5 +27,9 @@ public ResponseEntity<String> createAttendanceRecord(@RequestBody AttendanceReco
 @PostMapping("list/{attendanceId}/{lectureCourseId}")
 public Pagination<AttendanceRecordDTO> getAttendanceRecordList(@RequestBody PageInput pageInput,@PathVariable String attendanceId,@PathVariable String lectureCourseId) {
    return attendanceRecordService.getAttendanceRecordList(pageInput,attendanceId,lectureCourseId);
+}
+@PostMapping("list/history/{attendanceId}/{lectureCourseId}")
+public Pagination<AttendanceRecordHistoryDTO> getAttendanceRecordHistoryList(@RequestBody PageInput pageInput,@PathVariable String attendanceId,@PathVariable String lectureCourseId) {
+   return attendanceRecordService.getAttendanceRecordHistoryList(pageInput,attendanceId,lectureCourseId);
 }
 }
